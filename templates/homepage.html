@@ -5,11 +5,23 @@
 {% block content %}
 
     <h1>Homepage</h1>
-    <p>Hello and welcome to the decision-maker 4000.</p><br>
+    <p>Hello and welcome to the World Dashboard.</p><br>
+
+    <form action="/news-country" method="POST">
+        <select name="country-code-select">
+
+            {% for code in country_codes %}
+            <option value="{{ code }}">{{ code }}</option>
+            {% endfor %}
+
+        </select>
+        <button type="submit">Select</button> 
+</form>
+
     <p>
         Take me to...<br>
         <ul>
-            <li><a href="/get-started">Get Started</a></li>
+            <li><a href="/news-test-page">USA Top News</a></li>
         </ul>
     </p>
 
