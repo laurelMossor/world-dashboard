@@ -27,32 +27,27 @@ def homepage():
 
 @app.route("/news-country", methods=['POST'])
 def get_news_by_country():
-
+    """Processes the form from homepage.html and grabs News"""
+    
+    # 2-digit country code from form
     two_dig_country_code = request.form.get("country-code-select")
 
-    url = "https://newsapi.org/v2/top-headlines"
-    payload = {
+    # News API information gathering
+    news_url = "https://newsapi.org/v2/top-headlines"
+    news_payload = {
         "apikey": NEWS_API_KEY, 
         "country": two_dig_country_code,
         "pageSize": "5",
     }
+    news_res = requests.get(news_url, params=news_payload)
+    news_data = news_res.json()
+    articles = news_data["articles"]
 
-    url = "https://newsapi.org/v2/top-headlines"
-    payload = {
-        "apikey": NEWS_API_KEY, 
-        "country": two_dig_country_code,
-        "pageSize": "5",
-    }
-
-    res = requests.get(url, params=payload)
-    data = res.json()
-    articles = data["articles"]
-
-    return render_template("/news-test-page.html", 
+    return render_template("/dashboard.html", 
     articles=articles)
 
 
-@app.route("/news-test-page")
+@app.route("/dashboard")
 def test_page():
     """Testing APIs"""
 
@@ -67,8 +62,7 @@ def test_page():
     data = res.json()
     articles = data["articles"]
 
-    return render_template("news-test-page.html", 
-    data=data, 
+    return render_template("dashboard.html", 
     articles=articles)
 
 
