@@ -24,6 +24,13 @@ def homepage():
     return render_template("homepage.html",
     country_codes=COUNTRY_CODES)
 
+@app.route("/test-home")
+def test_home():
+
+    return render_template("test-home.html", 
+    country_codes=COUNTRY_CODES)
+
+
 
 @app.route("/news-country", methods=['POST'])
 def get_news_by_country():
@@ -47,9 +54,11 @@ def get_news_by_country():
     articles=articles)
 
 
+
 @app.route("/dashboard")
 def test_page():
-    """Testing APIs"""
+    """Testing APIs
+    Shows US top headlines"""
 
     url = "https://newsapi.org/v2/top-headlines"
     payload = {

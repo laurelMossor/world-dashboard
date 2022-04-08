@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block js %}
+<script src="/static/js/test-home.jsx" type="text/jsx"></script>
+{% endblock %}
+
+{% block content %}
+
+    <h1>Homepage</h1>
+    <p>Hello and welcome to the World Dashboard.</p><br>
+
+
+    <!-- This form shoots over to a new URL, 
+        I want it to show on the same page! -->
+    <form action="/news-country" method="POST">
+        <select name="country-code-select">
+
+            {% for code in country_codes %}
+            <option value="{{ code }}">{{ code }}</option>
+            {% endfor %}
+
+        </select>
+        <button type="submit">Select</button> 
+</form>
+
+<div id="news-dashboard"></div>
+
+{% endblock %}
