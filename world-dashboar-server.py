@@ -30,6 +30,26 @@ def test_home():
     return render_template("test-home.html", 
     country_codes=COUNTRY_CODES)
 
+@app.route("/news-country-test")
+def test_react():
+    """Copying the lecture and example materials"""
+
+    # 2-digit country code from form
+    two_dig_country_code = request.form.get("country-code-select")
+
+    # News API information gathering
+    news_url = "https://newsapi.org/v2/top-headlines"
+    news_payload = {
+        "apikey": NEWS_API_KEY, 
+        "country": two_dig_country_code,
+        "pageSize": "5",
+    }
+    news_res = requests.get(news_url, params=news_payload)
+    news_data = news_res.json()
+    articles = news_data["articles"]
+
+    return jasonify(articles)
+
 
 
 @app.route("/news-country", methods=['POST'])
