@@ -2,7 +2,7 @@
 html {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: aliceblue;
-    margin: 10%;
+    margin: 0;
 }
 
 h1 {
@@ -15,3 +15,8 @@ footer {
     font-size: small;
 }
 
+#home-banner {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}

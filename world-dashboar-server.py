@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, render_template
+from flask import Flask, redirect, request, render_template, jsonify
 import json
 import os
 import requests
@@ -28,14 +28,18 @@ def homepage():
 def test_home():
 
     return render_template("test-home.html", 
-    country_codes=COUNTRY_CODES)
+    country_codes=COUNTRY_CODES, 
+    NEWS_API_KEY=NEWS_API_KEY)
 
 @app.route("/news-country-test")
 def test_react():
     """Copying the lecture and example materials"""
 
     # 2-digit country code from form
-    two_dig_country_code = request.form.get("country-code-select")
+    two_dig_country_code = request.args.get("twoDigCountryCode")
+    print("******************")
+    print(two_dig_country_code)
+    print("******************")
 
     # News API information gathering
     news_url = "https://newsapi.org/v2/top-headlines"
@@ -45,16 +49,21 @@ def test_react():
         "pageSize": "5",
     }
     news_res = requests.get(news_url, params=news_payload)
+    print("******************")
+    print(news_res.url)
+    print("******************")
     news_data = news_res.json()
-    articles = news_data["articles"]
+    # articles = news_data["articles"]
 
-    return jasonify(articles)
+    # return jasonify(articles)
+    return jsonify(news_data)
 
 
 
 @app.route("/news-country", methods=['POST'])
 def get_news_by_country():
-    """Processes the form from homepage.html and grabs News"""
+    """Processes the form from homepage.html and grabs News
+    OLD PAGE"""
     
     # 2-digit country code from form
     two_dig_country_code = request.form.get("country-code-select")
@@ -67,6 +76,10 @@ def get_news_by_country():
         "pageSize": "5",
     }
     news_res = requests.get(news_url, params=news_payload)
+    print("******************")
+    print(news_res.url)
+    print("******************")
+
     news_data = news_res.json()
     articles = news_data["articles"]
 
