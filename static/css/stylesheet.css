@@ -14,14 +14,22 @@ html {
 #news-dashboard {
     display: inline-block;
     border: 5px solid black;
+    border-radius: 25px;
+    background-color: #ffffff;
     width: 500px;
 }
 #country-info {
     display: inline-block;
     border: 5px solid black;
+    border-radius: 25px;
+
+    background-color: #ffffff;
     width: 500px;
 }
 #news-pic {
+    width: 400px;
+}
+#country-flag {
     width: 400px;
 }
 

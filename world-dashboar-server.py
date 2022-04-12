@@ -8,26 +8,17 @@ app = Flask(__name__)
 
 NEWS_API_KEY = os.environ['NEWS_API_KEY']
 
-COUNTRY_CODES = ['ae', 'ar', 'at', 'au', 'be', 'bg', 
-'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 
-'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 
-'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 
-'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 
-'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 
-'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za']
-
 
 @app.route("/")
 def homepage():
     """App landing page"""
 
-    return render_template("homepage.html",
-    country_codes=COUNTRY_CODES)
+    return render_template("homepage.html")
 
 
 @app.route("/news-country")
-def test_react():
-    """Copying the lecture and example materials"""
+def news_country():
+    """Call the News API"""
 
     # 2-digit country code from form
     two_dig_country_code = request.args.get("twoDigCountryCode")
@@ -44,6 +35,8 @@ def test_react():
     articles = news_data["articles"]
 
     return jsonify(articles)
+
+
 
 
 

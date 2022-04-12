@@ -12,30 +12,18 @@
     <p>Hello and welcome to the World Dashboard.</p><br>
 
 
-    <!-- This form shoots over to a new URL, 
-        I want it to show on the same page! -->
     <form action="/news-country">
         <select name="country-code-select">
-
-            {% for code in country_codes %}
-            <option value="{{ code }}">{{ code }}</option>
-            {% endfor %}
-
         </select>
         <button type="submit" id="country-code-selector">Select</button> 
 </form>
 
+
 <br><br>
 <div class="dashboard" id="dashboard-parent">
     
+    <div class="dashboard" id="country-info"></div>
     <div class="dashboard" id="news-dashboard"></div>
-    <div class="dashboard" id="country-info">
-        <p>Words <br>
-        and <br>
-        stuff<br>
-        goes<br>
-        here</p>
-    </div>
 
 </div>
 {% endblock %}

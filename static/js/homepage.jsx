@@ -9,24 +9,43 @@ const COUNTRY_CODES = ['ae', 'ar', 'at', 'au', 'be', 'bg',
 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 
 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za'];
 
-// 2-digit country code selection
+const COUNTRY_CODES_WIP = [("ae", "United Arab Emirates"), 
+("ar", "Argentina"), ("at", "Austria")]
+
+
+
+// Countries Info 
+const RESTcountiresURL = "https://restcountries.com/v2/alpha/"
+
+// Creating form on JS side
+const dropDown = document.querySelector('select[name="country-code-select"]');
+for (const code of COUNTRY_CODES) {
+    dropDown.insertAdjacentHTML('beforeend',
+    `<option value=${code}>${code}</option>`)
+};
+
+// Key document elements
 const countryCodeSelectButton = document.getElementById("country-code-selector");
-const newsDiv = document.querySelector("#news-dashboard")
-const dashboard = document.querySelector("#dashboard-parent")
+const newsDiv = document.querySelector("#news-dashboard");
+const dashboard = document.querySelector("#dashboard-parent");
+const countryInfoDiv = document.querySelector("#country-info");
 
-// News API call
-
+// Sumbit button event
 countryCodeSelectButton.addEventListener("click", (evt) => {
     evt.preventDefault();
     const twoDigCountryCode = document.querySelector('select[name="country-code-select"]').value;
     const queryString = new URLSearchParams({twoDigCountryCode}).toString();
-    newsDiv.innerHTML = ""
+    // Clear previous country
+    newsDiv.innerHTML = `<h2>TOP NEWS</h2>`
+    countryInfoDiv.innerHTML = ""
+
+    // display blocks
     dashboard.style.display = "inline-block"
 
+    // News API call
     fetch(`/news-country?${queryString}`)
         .then(articles => articles.json())
         .then(articlesJSON =>  {
-
 
             for (const i in articlesJSON) {
                 newsDiv.insertAdjacentHTML('beforeend', 
@@ -34,6 +53,18 @@ countryCodeSelectButton.addEventListener("click", (evt) => {
                 <img src=${articlesJSON[i].urlToImage} id="news-pic"/>
                 <p>${articlesJSON[i].content}</p>`);
             }
+        });
+    // REST Countries API call
+    fetch(`${RESTcountiresURL}${twoDigCountryCode}`)
+        .then(response => response.json())
+        .then(countryData => {
+            console.log(countryData.currencies);
+            countryInfoDiv.insertAdjacentHTML('beforeend',
+            `<h2>${countryData.name}</h2>
+            <img src=${countryData.flag} id="country-flag">
+            <p>Capital: ${countryData.capital} |
+            Population: ${countryData.population} |
+            Currency: (${countryData.currencies[0].code}) ${countryData.currencies[0].name}`)
         })
 
 });
