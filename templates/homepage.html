@@ -2,12 +2,19 @@
 
 {% block title %}Home{% endblock %}
 
-{% block content %}
+{% block js %}
+<script src="/static/js/test-home.jsx" type="text/jsx"></script>
+{% endblock %}
 
+{% block content %}
+    <img src="static/images/dashboard-banner.png" id="home-banner"/>
     <h1>Homepage</h1>
     <p>Hello and welcome to the World Dashboard.</p><br>
 
-    <form action="/news-country" method="POST">
+
+    <!-- This form shoots over to a new URL, 
+        I want it to show on the same page! -->
+    <form action="/news-country-test">
         <select name="country-code-select">
 
             {% for code in country_codes %}
@@ -15,15 +22,9 @@
             {% endfor %}
 
         </select>
-        <button type="submit">Select</button> 
+        <button type="submit" id="country-code-selector">Select</button> 
 </form>
 
-    <p>
-        Take me to...<br>
-        <ul>
-            <li><a href="/dashboard">USA Top News</a></li>
-        </ul>
-    </p>
-
+<div id="news-dashboard"></div>
 
 {% endblock %}

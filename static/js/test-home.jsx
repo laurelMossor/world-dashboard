@@ -1,7 +1,5 @@
 "use strict";
 
-
-
 // News API accepted country codes
 const COUNTRY_CODES = ['ae', 'ar', 'at', 'au', 'be', 'bg', 
 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 
@@ -12,7 +10,6 @@ const COUNTRY_CODES = ['ae', 'ar', 'at', 'au', 'be', 'bg',
 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za'];
 
 // 2-digit country code selection
-let twoDigCountryCode = document.querySelector('select[name="country-code-select"]').value;
 const countryCodeSelectButton = document.getElementById("country-code-selector");
 const newsDiv = document.querySelector("#news-dashboard")
 
@@ -20,41 +17,24 @@ const newsDiv = document.querySelector("#news-dashboard")
 
 countryCodeSelectButton.addEventListener("click", (evt) => {
     evt.preventDefault();
+    const twoDigCountryCode = document.querySelector('select[name="country-code-select"]').value;
     const queryString = new URLSearchParams({twoDigCountryCode}).toString();
-
+    newsDiv.innerHTML = ""
 
     fetch(`/news-country-test?${queryString}`)
-        .then(response => response.json())
-        .then(responseJson =>  {
-            console.log(responseJson);
-            for (const article in responseJson) {
-                newsDiv.innerHTML = `<p>${article}</p>`;
+        .then(articles => articles.json())
+        .then(articlesJSON =>  {
+            console.log(articlesJSON);
+            console.log(articlesJSON[0].author)
+            for (const i in articlesJSON) {
+                newsDiv.insertAdjacentHTML('beforeend', 
+                `<h3>${articlesJSON[i].title}</h3>
+                <img src=${articlesJSON[i].urlToImage} id="news-pic"/>
+                <p>${articlesJSON[i].content}</p>`);
             }
         })
 
 });
-// On submit, Get the country code value,
-// send it over to .py,
-// .py makes the API call,
-// returns tje JSON, 
-
-
-
-// const newsApiURL = "https://newsapi.org/v2/top-headlines?"
-// const news_payload = {
-//     "apikey": myNEWS_API_KEY, 
-//     "country": twoDigCountryCode,
-//     "pageSize": "5",
-// };
-// const queryString = new URLSearchParams(news_payload).toString();
-// const newsApiCallURL = `${newsApiURL}${queryString}`;
-// console.log(newsApiCallURL);
-
-
-// fetch(newsApiCallURL)
-//     .then(response => response.json())
-//     .then(responseJson => console.log(responseJson));
-
 
 
 
