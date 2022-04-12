@@ -4,11 +4,25 @@ html {
     background-color: aliceblue;
     margin: 0;
 }
-
-h1 {
+.dashboard {
+    vertical-align: top;
+    font-size:small;
+    text-align: center;
+    display: none;
 }
 
-p {
+#news-dashboard {
+    display: inline-block;
+    border: 5px solid black;
+    width: 500px;
+}
+#country-info {
+    display: inline-block;
+    border: 5px solid black;
+    width: 500px;
+}
+#news-pic {
+    width: 400px;
 }
 
 footer {

@@ -12,6 +12,7 @@ const COUNTRY_CODES = ['ae', 'ar', 'at', 'au', 'be', 'bg',
 // 2-digit country code selection
 const countryCodeSelectButton = document.getElementById("country-code-selector");
 const newsDiv = document.querySelector("#news-dashboard")
+const dashboard = document.querySelector("#dashboard-parent")
 
 // News API call
 
@@ -20,12 +21,13 @@ countryCodeSelectButton.addEventListener("click", (evt) => {
     const twoDigCountryCode = document.querySelector('select[name="country-code-select"]').value;
     const queryString = new URLSearchParams({twoDigCountryCode}).toString();
     newsDiv.innerHTML = ""
+    dashboard.style.display = "inline-block"
 
     fetch(`/news-country?${queryString}`)
         .then(articles => articles.json())
         .then(articlesJSON =>  {
-            console.log(articlesJSON);
-            console.log(articlesJSON[0].author)
+
+
             for (const i in articlesJSON) {
                 newsDiv.insertAdjacentHTML('beforeend', 
                 `<h3>${articlesJSON[i].title}</h3>
