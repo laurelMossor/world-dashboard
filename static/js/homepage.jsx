@@ -21,7 +21,7 @@ countryCodeSelectButton.addEventListener("click", (evt) => {
     const queryString = new URLSearchParams({twoDigCountryCode}).toString();
     newsDiv.innerHTML = ""
 
-    fetch(`/news-country-test?${queryString}`)
+    fetch(`/news-country?${queryString}`)
         .then(articles => articles.json())
         .then(articlesJSON =>  {
             console.log(articlesJSON);
