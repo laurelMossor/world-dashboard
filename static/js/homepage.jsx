@@ -14,6 +14,15 @@ const COUNTRY_CODES_WIP = [("ae", "United Arab Emirates"),
 
 
 
+// const svgMap = Object({
+//     targetElementID: 'svgMapExample',
+// });
+// new svgMap({
+//     targetElementID: 'svgMapExample',
+// });
+
+
+
 // Countries Info 
 const RESTcountiresURL = "https://restcountries.com/v2/alpha/"
 
