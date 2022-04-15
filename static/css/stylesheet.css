@@ -22,7 +22,6 @@ html {
     display: inline-block;
     border: 5px solid black;
     border-radius: 25px;
-
     background-color: #ffffff;
     width: 500px;
 }
@@ -41,4 +40,14 @@ footer {
     max-width: 100%;
     margin: 0;
     padding: 0;
+}
+
+#login-box {
+    display: block;
+    border: 5px solid #000000;
+    padding: 50px;
+    width: 300px;
+    border-radius: 25px;
+    margin: auto;
+
 }

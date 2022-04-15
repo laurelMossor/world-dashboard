@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}World Dashboard{% endblock %}
 
 {% block js %}
 <script src="/static/js/homepage.jsx" type="text/jsx"></script>
@@ -8,6 +8,10 @@
 
 {% block content %}
     <img src="static/images/dashboard-banner.png" id="home-banner"/>
+    <div id="login-link">
+        <a href="/login">Log in (or Create an account)</a>
+    </div>
+
     <h1>Homepage</h1>
     <p>Hello and welcome to the World Dashboard.</p><br>
 
