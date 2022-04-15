@@ -1,10 +1,15 @@
-from flask import Flask, redirect, request, render_template, jsonify
+from flask import (Flask, redirect, request, 
+            render_template, jsonify, flash, session)
+from model import connect_to_db, db, User
 import json
 import os
 import requests
+from jinja2 import StrictUndefined
 
 
 app = Flask(__name__)
+app.secret_key = "dev"
+app.jinja_env.undefined = StrictUndefined
 
 NEWS_API_KEY = os.environ['NEWS_API_KEY']
 
@@ -37,11 +42,7 @@ def news_country():
     return jsonify(articles)
 
 
-
-
-
-
     
 if __name__ == "__main__":
-    app.debug = True
-    app.run(host="0.0.0.0")
+    connect_to_db(app)
+    app.run(host="0.0.0.0", debug = True)
