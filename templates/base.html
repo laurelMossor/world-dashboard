@@ -19,6 +19,10 @@
 
 </head>
 <body>
+    {% if session["current_user"] != None %}
+    <p>You are logged in as {{ session["current_user"] }}</p>
+    {% endif %}
+
     {% for msg in get_flashed_messages() %}
     <p class="flash-msg">
         {{ msg }}

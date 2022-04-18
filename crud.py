@@ -1,4 +1,5 @@
 """CRUD operations."""
+import json
 
 from model import db, connect_to_db, User
 
@@ -21,6 +22,15 @@ def get_user_password(x_email, x_password):
     x_user = User.query.filter(User.email == x_email).first()   
     return x_user.password
 
+
+
+with open("world-countries.json") as file:
+    all_countries_list = json.loads(file.read())
+
+all_countries_dict = {}
+# Loop over to create dictionary
+for country in all_countries_list:
+    all_countries_dict[country[1]] = country[0]
 
 
 

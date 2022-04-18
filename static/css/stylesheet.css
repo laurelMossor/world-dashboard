@@ -42,7 +42,7 @@ footer {
     padding: 0;
 }
 
-#login-box {
+.login-box {
     display: block;
     border: 5px solid #000000;
     padding: 50px;

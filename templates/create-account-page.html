@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Log in{% endblock %}
+{% block title %}Create an Account{% endblock %}
 
 {% block content %}
 
 <a href="/">Home</a>
 
-<div class="login-box">
 
-    <h2>Log In</h2>
-    <form action="/user-login" method="POST">
+<div class="login-box">
+    <h2>Create an Account</h2>
+    <form action="/create-account" method="POST">
         <p>
         Email <input type="text" name="email">
         <br>
         Password <input type="password" name="password">
         </p>
         <p>
-        <input type="submit"> or <a href="/create-account-page">Create an Account</a>
+        <input type="submit"> or <a href="/login-page">Log in</a>
         </p>
     </form>
     
