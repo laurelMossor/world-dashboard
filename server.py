@@ -22,21 +22,22 @@ def homepage():
 
     return render_template("homepage.html")
 
+@app.route("/logout")
+def logout():
+
+    session["current_user_email"] = None
+    session["current_user_name"] = None
+    flash("You have been logged out.")
+
+    return redirect("/")
+
 @app.route("/login-page")
 def login():
     """Log in or create an account"""
 
     return render_template("login-page.html")
 
-@app.route("/logout")
-def logout():
-
-    session["current_user"] = {}
-    flash("You have been logged out.")
-
-    return redirect("/")
-
-@app.route("/user-login", methods=["POST"])
+@app.route("/login-page/user-login", methods=["POST"])
 def user_login():
 
     email = request.form.get("email")
@@ -49,7 +50,10 @@ def user_login():
         if crud.get_user_password(email, password) == password:
             flash("You are logged in!")
             session["current_user_email"] = user.email
-            session["current_user_name"] = "Friend"
+            if crud.check_for_username(user.email) == None:
+                session["current_user_name"] = "Friend"
+            else:
+                session["current_user_name"] = crud.check_for_username(user.email)
         else:
             flash("Those passwords don't match.")
     
@@ -60,7 +64,7 @@ def create_account():
 
     return render_template("create-account-page.html")
 
-@app.route("/create-account", methods=["POST"])
+@app.route("/create-account-page/create-account", methods=["POST"])
 def create_user():
 
     email = request.form.get("email")
@@ -82,7 +86,21 @@ def user_profile():
 
     return render_template("user-profile.html")
 
-@app.route("/news-country")
+@app.route("/user-profile/create-username", methods=["POST"])
+def create_username():
+
+    new_username = request.form.get("create-username")
+    flash(f"Wonderful, we'll call you {new_username}.")
+    session["current_user_name"] = new_username
+
+    user = crud.get_user_email(session["current_user_email"])
+    user.username = new_username
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect("/user-profile")
+
+@app.route("/api/news-country")
 def news_country():
     """Call the News API"""
 

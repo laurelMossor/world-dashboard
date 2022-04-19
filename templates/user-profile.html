@@ -7,14 +7,24 @@
 {% endblock %}
 
 {% block content %}
-<a href="/">Home</a>
+<a href="/">Home</a><br><br>
+<form action="/logout"><button type="submit">Logout</button></form>
 
     <h1>Hello, {{session["current_user_name"]}}!</h1>
-    <div id="create-profile"></div>
+    {% if session["current_user_name"] == "Friend" %}
+    <div >
+        <form action="/user-profile/create-username" method="POST">
+            <h3>Create username</h3>
+            What should we call you? <input type="text" name="create-username">
+            <input type="submit">
+        </form>
+    </div>
+    {% else %}
+
+    {% endif %}
 
 
 
 
-    <form action="/logout"><button type="submit">Logout</button></form>
 
 {% endblock %}

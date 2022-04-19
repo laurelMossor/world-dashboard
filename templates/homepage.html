@@ -10,9 +10,9 @@
     <img src="static/images/dashboard-banner.png" id="home-banner"/>
     <div id="login-link">
         <a href="/login-page">Log in</a> or
-        <a href="/create-account-page">Create an Account</a> |
-        {% if session["current_user"] != None %}
-            Hello, {{ session["current_user"] }} |
+        <a href="/create-account-page">Create an Account</a>
+        {% if session["current_user_name"] != None %}
+            | Hello, {{ session["current_user_name"] }} |
             <a href="/user-profile">User Profile</a>
             <form action="/logout"><button type="submit">Logout</button></form>
         {% endif %}
@@ -22,7 +22,7 @@
     <h1>Select a country to get started</h1>
     
     -> 
-    <form action="/news-country">
+    <form action="/api/news-country">
         <select name="country-code-select"></select>
         <button type="submit" id="country-code-selector">Select</button> 
 </form>

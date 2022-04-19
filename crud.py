@@ -27,7 +27,10 @@ def get_user_password(x_email, x_password):
 #     return (session["current_user"]["email"] = email, 
 #     session["current_user"]["name"] = name)
     
+def check_for_username(x_email):
 
+    user = User.query.filter(User.email == x_email).first()
+    return user.username
 
 
 with open("world-countries.json") as file:

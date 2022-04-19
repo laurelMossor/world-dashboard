@@ -45,7 +45,7 @@ function restCountriesCall(twoDigCountryCode) {
 /** Create and call News API using 2 digit country code */
 function twoDigitNewsAPIcall(twoDigCountryCode) {
     const queryString = new URLSearchParams({twoDigCountryCode}).toString();
-    fetch(`/news-country?${queryString}`)
+    fetch(`/api/news-country?${queryString}`)
         .then(articles => articles.json())
         .then(articlesJSON =>  {
 
