@@ -14,6 +14,7 @@
         {% if session["current_user"] != None %}
             Hello, {{ session["current_user"] }} |
             <a href="/user-profile">User Profile</a>
+            <form action="/logout"><button type="submit">Logout</button></form>
         {% endif %}
         
     </div>

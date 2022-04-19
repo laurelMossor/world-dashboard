@@ -25,9 +25,12 @@ class User(db.Model):
     user_id = db.Column(db.Integer, 
                         autoincrement=True, 
                         primary_key=True)
-    username = db.Column(db.String(25), unique=True)
+    username = db.Column(db.String(25), unique=False)
     email = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
+    home_country = db.Column(db.String(50))
+    preferred_lang = db.Column(db.String(50))
+    news_search = db.Column(db.String(50))
 
     def __repr__(self):
         return f'<User: user_id={self.user_id} email={self.email}>'

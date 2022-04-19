@@ -19,8 +19,8 @@
 
 </head>
 <body>
-    {% if session["current_user"] != None %}
-    <p>You are logged in as {{ session["current_user"] }}</p>
+    {% if session["current_user_email"] != None %}
+    <p>You are logged in as {{ session["current_user_email"] }}</p>
     {% endif %}
 
     {% for msg in get_flashed_messages() %}

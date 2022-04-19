@@ -2,13 +2,19 @@
 
 {% block title %}User Profile{% endblock %}
 
+{% block js %}
+<script src="/static/js/profile-page.js"></script>
+{% endblock %}
+
 {% block content %}
 <a href="/">Home</a>
 
-    <h1>Hello, {{session["current_user"]}}!</h1>
-    <p>Words...</p><br>
+    <h1>Hello, {{session["current_user_name"]}}!</h1>
+    <div id="create-profile"></div>
 
 
 
+
+    <form action="/logout"><button type="submit">Logout</button></form>
 
 {% endblock %}

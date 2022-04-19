@@ -13,7 +13,7 @@ def create_user(email, password):
 
     return user
 
-def check_user_email(x_email):
+def get_user_email(x_email):
     
     return User.query.filter(User.email == x_email).first()
 
@@ -21,6 +21,12 @@ def get_user_password(x_email, x_password):
 
     x_user = User.query.filter(User.email == x_email).first()   
     return x_user.password
+
+# def create_session_info(email=None,name="Friend"):
+    
+#     return (session["current_user"]["email"] = email, 
+#     session["current_user"]["name"] = name)
+    
 
 
 

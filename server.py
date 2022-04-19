@@ -20,8 +20,6 @@ NEWS_API_KEY = os.environ['NEWS_API_KEY']
 def homepage():
     """App landing page"""
 
-    # session["current_user"] = None
-
     return render_template("homepage.html")
 
 @app.route("/login-page")
@@ -30,19 +28,28 @@ def login():
 
     return render_template("login-page.html")
 
+@app.route("/logout")
+def logout():
+
+    session["current_user"] = {}
+    flash("You have been logged out.")
+
+    return redirect("/")
+
 @app.route("/user-login", methods=["POST"])
 def user_login():
 
     email = request.form.get("email")
     password = request.form.get("password")
-    user = crud.check_user_email(email)
+    user = crud.get_user_email(email)
 
     if user == None:
         flash("Please create an account.")
     else:
         if crud.get_user_password(email, password) == password:
             flash("You are logged in!")
-            session["current_user"] = user.email
+            session["current_user_email"] = user.email
+            session["current_user_name"] = "Friend"
         else:
             flash("Those passwords don't match.")
     
@@ -58,7 +65,7 @@ def create_user():
 
     email = request.form.get("email")
     password = request.form.get("password")
-    output = crud.check_user_email(email)
+    output = crud.get_user_email(email)
     new_user = User(email=email, password=password)
 
     if output != None:
