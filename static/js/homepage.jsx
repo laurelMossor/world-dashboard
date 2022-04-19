@@ -10,14 +10,8 @@ const COUNTRY_CODES = ['ae', 'ar', 'at', 'au', 'be', 'bg',
 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za'];
 
 
-/////// Creating dropdown form on JS side //////
-const dropDown = document.querySelector('select[name="country-code-select"]');
-for (const code of COUNTRY_CODES) {
-    dropDown.insertAdjacentHTML('beforeend',
-    `<option value=${code}>${code}</option>`)
-};
-
 ////// Key document elements //////
+const dropDown = document.querySelector('select[name="country-dropdown"]');
 const countryCodeSelectButton = document.getElementById("country-code-selector");
 const newsDiv = document.querySelector("#news-dashboard");
 const dashboard = document.querySelector("#dashboard-parent");
@@ -32,7 +26,6 @@ function restCountriesCall(twoDigCountryCode) {
     fetch(`${RESTcountiresURL}${twoDigCountryCode}`)
         .then(response => response.json())
         .then(countryData => {
-            console.log(countryData.currencies);
             countryInfoDiv.insertAdjacentHTML('beforeend',
             `<h2>${countryData.name}</h2>
             <img src=${countryData.flag} id="country-flag">
@@ -58,6 +51,8 @@ function twoDigitNewsAPIcall(twoDigCountryCode) {
         });
 }
 
+
+
 /** Refresh the page so that the blocks are cleared */
 function refreshPage() {
     // Clear previous country
@@ -70,11 +65,22 @@ function refreshPage() {
 /////// MAIN EVENT: Sumbit button event ////////////
 countryCodeSelectButton.addEventListener("click", (evt) => {
     evt.preventDefault();
-    const twoDigCountryCode = document.querySelector('select[name="country-code-select"]').value;
-    
+    const twoDigCountryCode = dropDown.value.toLowerCase();
+
     refreshPage()
-    // News API call (2 digit code)
     twoDigitNewsAPIcall(twoDigCountryCode)
+
+    if (COUNTRY_CODES.includes(twoDigCountryCode)) {
+        // News API call (2 digit code)
+        console.log("Hello!")
+        console.log(twoDigCountryCode)
+
+    } else {
+        // newsDiv.innerHTML = '<h2>hello!</h2>'
+        console.log("Oh no!")
+        console.log(twoDigCountryCode)
+    };
+
     // REST Countries API call
     restCountriesCall(twoDigCountryCode);
 

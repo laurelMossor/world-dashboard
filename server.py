@@ -14,13 +14,16 @@ app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
 NEWS_API_KEY = os.environ['NEWS_API_KEY']
+ALL_COUNTRIES_LIST = crud.all_countries_list
+
 
 
 @app.route("/")
 def homepage():
     """App landing page"""
 
-    return render_template("homepage.html")
+    return render_template("homepage.html", 
+    ALL_COUNTRIES_LIST=ALL_COUNTRIES_LIST)
 
 @app.route("/logout")
 def logout():
@@ -47,7 +50,7 @@ def user_login():
     if user == None:
         flash("Please create an account.")
     else:
-        if crud.get_user_password(email, password) == password:
+        if crud.get_user_password(email) == password:
             flash("You are logged in!")
             session["current_user_email"] = user.email
             if crud.check_for_username(user.email) == None:
@@ -73,7 +76,7 @@ def create_user():
     new_user = User(email=email, password=password)
 
     if output != None:
-        flash("Oh no! That email is already in use.")
+        flash("Oh no! That email is already in use. Try logging in.")
     else:
         flash("Great! You created an account. Now please log in.")
         db.session.add(new_user)
