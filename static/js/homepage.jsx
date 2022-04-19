@@ -40,8 +40,8 @@ function twoDigitNewsAPIcall(twoDigCountryCode) {
     const queryString = new URLSearchParams({twoDigCountryCode}).toString();
     fetch(`/api/news-country?${queryString}`)
         .then(articles => articles.json())
-        .then(articlesJSON =>  {
-
+        .then(articlesJSON =>  { 
+            console.log(articlesJSON)
             for (const i in articlesJSON) {
                 newsDiv.insertAdjacentHTML('beforeend', 
                 `<h3>${articlesJSON[i].title}</h3>
@@ -51,6 +51,20 @@ function twoDigitNewsAPIcall(twoDigCountryCode) {
         });
 }
 
+function countryNameNewsAPIcall(twoDigCountryCode) {
+    const queryString = new URLSearchParams({twoDigCountryCode}).toString();
+    fetch(`/api/news-by-country-name?${queryString}`)
+        .then(articles => articles.json())
+        .then(articlesJSON =>  { 
+            console.log(articlesJSON)
+            for (const i in articlesJSON) {
+                newsDiv.insertAdjacentHTML('beforeend', 
+                `<h3>${articlesJSON[i].title}</h3>
+                <img src=${articlesJSON[i].urlToImage} id="news-pic"/>
+                <p>${articlesJSON[i].content}</p>`);
+            }
+        });        
+}
 
 
 /** Refresh the page so that the blocks are cleared */
@@ -66,18 +80,17 @@ function refreshPage() {
 countryCodeSelectButton.addEventListener("click", (evt) => {
     evt.preventDefault();
     const twoDigCountryCode = dropDown.value.toLowerCase();
+    console.log(twoDigCountryCode.text)
 
     refreshPage()
-    twoDigitNewsAPIcall(twoDigCountryCode)
 
     if (COUNTRY_CODES.includes(twoDigCountryCode)) {
         // News API call (2 digit code)
-        console.log("Hello!")
-        console.log(twoDigCountryCode)
-
+        twoDigitNewsAPIcall(twoDigCountryCode)
     } else {
-        // newsDiv.innerHTML = '<h2>hello!</h2>'
-        console.log("Oh no!")
+        // keyWordNewsAPIcall
+        countryNameNewsAPIcall(twoDigCountryCode)
+        console.log("Good job, Laurel!")
         console.log(twoDigCountryCode)
     };
 

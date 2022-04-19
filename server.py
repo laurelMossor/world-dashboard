@@ -15,6 +15,7 @@ app.jinja_env.undefined = StrictUndefined
 
 NEWS_API_KEY = os.environ['NEWS_API_KEY']
 ALL_COUNTRIES_LIST = crud.all_countries_list
+ALL_COUNTRIES_DICT = crud.all_countries_dict
 
 
 
@@ -105,24 +106,47 @@ def create_username():
 
 @app.route("/api/news-country")
 def news_country():
-    """Call the News API"""
+    """Call the News API with the TWO DIGIT code"""
 
     # 2-digit country code from form
     two_dig_country_code = request.args.get("twoDigCountryCode")
 
     # News API information gathering
     news_url = "https://newsapi.org/v2/top-headlines"
-    news_payload = {
+    payload = {
         "apikey": NEWS_API_KEY, 
         "country": two_dig_country_code,
         "pageSize": "5",
     }
-    news_res = requests.get(news_url, params=news_payload)
+    news_res = requests.get(news_url, params=payload)
     news_data = news_res.json()
     articles = news_data["articles"]
 
     return jsonify(articles)
 
+@app.route("/api/news-by-country-name")
+def news_by_country_name():
+    """Call the News API with the NAME"""
+
+    two_dig_country_code = request.args.get("twoDigCountryCode")
+    country_name = ALL_COUNTRIES_DICT[two_dig_country_code.upper()]
+    print("*****************")
+    print(country_name)
+
+    news_url = "https://newsapi.org/v2/everything"
+    payload = {
+        "apikey": NEWS_API_KEY, 
+        "q": country_name,
+        "sortBy": "popularity",
+        "pageSize": "5",
+    }
+    news_res = requests.get(news_url, params=payload)
+    print(news_res.url)
+    news_data = news_res.json()
+    articles = news_data["articles"]
+
+
+    return jsonify(articles)
 
     
 if __name__ == "__main__":
