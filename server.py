@@ -30,9 +30,11 @@ def homepage():
         session["current_user_email"] = user.email
         session["current_user_name"] = user.username
         session["current_user_lang"] = user.preferred_lang
+        session["current_user_keyword"] = user.news_search
     else:
-        session["current_user_lang"] = None
         session["current_user_email"] = None
+        session["current_user_lang"] = None
+        session["current_user_keyword"] = None
 
     return render_template("homepage.html", 
     ALL_COUNTRIES_LIST=ALL_COUNTRIES_LIST)
@@ -45,6 +47,7 @@ def logout():
     session["current_user_email"] = None
     session["current_user_name"] = None
     session["current_user_lang"] = None
+    session["curent_user_keyword"] = None
     flash("You have been logged out.")
 
     return redirect("/")
@@ -70,6 +73,7 @@ def user_login():
             session["current_user_email"] = user.email
             if crud.check_for_username(user.email) == None:
                 session["current_user_name"] = "Friend"
+                # TODO: MOVE THIS UP TO HOME
             else:
                 session["current_user_name"] = crud.check_for_username(user.email)
         else:
@@ -127,7 +131,7 @@ def source_language():
 
     source_language_preference = request.form.get("language-dropdown")
 
-    # Add to session, here and at logout
+    # Add to session
     session["current_user_lang"] = source_language_preference
     # Add to Database
     user = crud.get_user_email(session["current_user_email"])
@@ -135,7 +139,39 @@ def source_language():
     db.session.add(user)
     db.session.commit()
 
-    # Have news reflect change 
+    # TODO: Have news reflect change 
+
+    return redirect("/user-profile")
+
+@app.route("/user-profile/keyword-search-term", methods=["POST"])
+def keyword_search_term():
+    """Adds keyword search term to database and session"""
+
+    keyword_search_term = request.form.get("keyword-search")
+    # Add to session 
+    session["current_user_keyword"] = keyword_search_term
+    # Add to database
+    user = crud.get_user_email(session["current_user_email"])
+    user.news_search = keyword_search_term
+    db.session.add(user)
+    db.session.commit()
+
+    # TODO: Have news reflect change
+
+    return redirect("/user-profile")
+
+@app.route("/user-profile/reset-preferences")
+def reset_preferences():
+    """Resets the users preferences in the database and session"""
+
+    user = crud.get_user_email(session["current_user_email"])
+    user.news_search = None
+    user.preferred_lang = None
+    db.session.add(user)
+    db.session.commit()
+
+    session["current_user_keyword"] = None
+    session["current_user_lang"] = None
 
     return redirect("/user-profile")
 
@@ -155,16 +191,14 @@ def news_by_country_name():
         "sortBy": "relevancy",
         "pageSize": "5",
     }
-    # IF there are keywords or language preferences,
-    # Add them to the payload dict 
-        # payload["language"] = "en"
-    
+    if session["current_user_keyword"] != None:
+        payload["q"] = session["current_user_keyword"] + " " + country_name
+
     if session["current_user_lang"] != None:
         payload["language"] = session["current_user_lang"]
 
     news_res = requests.get(news_url, params=payload)
     news_data = news_res.json()
-    print(news_res.url)
     articles = news_data["articles"]
 
     return jsonify(articles)

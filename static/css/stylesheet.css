@@ -58,3 +58,7 @@ footer {
     padding: 25px;
     width: 600px;
 }
+
+.centered-t {
+    text-align: center;
+}

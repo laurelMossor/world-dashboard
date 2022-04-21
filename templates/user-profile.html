@@ -13,7 +13,7 @@
     <h1>Hello, {{session["current_user_name"]}}!</h1>
 <div id="user-profile-parent">
     <!-- SHOULD SAY '==', changing it to '!=' while testing -->
-    {% if session["current_user_name"] != "Friend" %}
+    {% if session["current_user_name"] == "Friend" %}
     <div>        
         <h3>Create username</h3>
         <form action="/user-profile/create-username" method="POST">
@@ -23,9 +23,9 @@
     </div>
     {% endif %}
     <div>
-        <h3>Dashboard Preferences</h3>
+        <h2 class="centered-t">Dashboard Preferences</h2>
         <p>
-            <b>News Source Language:</b><br> 
+        <h3>News Source Language</h3>
             Selecting a language will narrow results significantly. 
             <i>Alternatively,</i> turn on the *translate* option to 
             translate the entire dashboard.<br><br>
@@ -37,9 +37,29 @@
                     {% endfor %}
                 </select>
                 <input type="submit" id="language-selector">
-            </form>
+            </form><br>
+            <b>Current language choice:</b> {{ session["current_user_lang"] }}
         </p>
-        <b>Current choice:</b> {{ session["current_user_lang"] }}
+    </div>
+    <div>
+        <p>
+        <h3>News Keyword Search Terms</h3>
+        Adding a search term to your news display will 
+        narrow results significantly. What are you interested in? Try 
+        adding something like: 'bitcoin', 'dogs', or 'Ukraine'
+        to personalize your search results. 
+        <form action="/user-profile/keyword-search-term" method="POST">
+            One word: <input type="text" name="keyword-search">
+            <input type="submit">
+        </form><br>
+        <b>Current search term:</b> {{ session["current_user_keyword"] }}
+    </p>
+</div>
+    <br><br>
+    <div class="centered-t">
+        <form action="/user-profile/reset-preferences">
+            <button type="submit" >Reset Preferences</button>
+        </form>
     </div>
 </div>
 
