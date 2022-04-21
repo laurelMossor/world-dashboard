@@ -13,6 +13,14 @@ for country in all_countries_list:
     all_countries_dict[country[1]] = country[0].lower()
     # The DICT is code[0], country[1]
 
+NEWS_LANGUAGES = [["None", "[Default/None]"], ["ar", "Arabic"], 
+["de", "German"], ["en", "English"], 
+["es", "Spanish"], ["fr", "French"], 
+["he", "Hebrew"], ["it", "Italian"], ["nl", "Dutch"], 
+["no", "Norwegian"], ["pt", "Portuguese"], 
+["ru", "Russian"], ["se", "Swedish"], 
+["ud", "Ukrainian"], ["zh", "Chinese"]]
+
 
 # Database is called 'dashboard-users'
 # testuser = User(email="test@test.com", password="test")

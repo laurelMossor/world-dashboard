@@ -1,15 +1,5 @@
 "use strict";
 
-// News API accepted country codes
-const COUNTRY_CODES = ['ae', 'ar', 'at', 'au', 'be', 'bg', 
-'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 
-'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 
-'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 
-'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 
-'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 
-'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za'];
-
-
 ////// Key document elements //////
 const dropDown = document.querySelector('select[name="country-dropdown"]');
 const countryCodeSelectButton = document.getElementById("country-code-selector");
@@ -34,23 +24,7 @@ function restCountriesCall(twoDigCountryCode) {
             Currency: (${countryData.currencies[0].code}) ${countryData.currencies[0].name}`)
         })
 }
-
-/** Create and call News API using 2 digit country code */
-function twoDigitNewsAPIcall(twoDigCountryCode) {
-    const queryString = new URLSearchParams({twoDigCountryCode}).toString();
-    fetch(`/api/news-country?${queryString}`)
-        .then(articles => articles.json())
-        .then(articlesJSON =>  { 
-            console.log(articlesJSON)
-            for (const i in articlesJSON) {
-                newsDiv.insertAdjacentHTML('beforeend', 
-                `<h3>${articlesJSON[i].title}</h3>
-                <img src=${articlesJSON[i].urlToImage} id="news-pic"/>
-                <p>${articlesJSON[i].content}</p>`);
-            }
-        });
-}
-
+/**Create News API call using country as keyword */
 function countryNameNewsAPIcall(twoDigCountryCode) {
     const queryString = new URLSearchParams({twoDigCountryCode}).toString();
     fetch(`/api/news-by-country-name?${queryString}`)
@@ -80,19 +54,9 @@ function refreshPage() {
 countryCodeSelectButton.addEventListener("click", (evt) => {
     evt.preventDefault();
     const twoDigCountryCode = dropDown.value.toLowerCase();
-    console.log(twoDigCountryCode.text)
 
     refreshPage()
-
-    if (COUNTRY_CODES.includes(twoDigCountryCode)) {
-        // News API call (2 digit code)
-        twoDigitNewsAPIcall(twoDigCountryCode)
-    } else {
-        // keyWordNewsAPIcall
-        countryNameNewsAPIcall(twoDigCountryCode)
-        console.log("Good job, Laurel!")
-        console.log(twoDigCountryCode)
-    };
+    countryNameNewsAPIcall(twoDigCountryCode)
 
     // REST Countries API call
     restCountriesCall(twoDigCountryCode);

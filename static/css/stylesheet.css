@@ -51,3 +51,10 @@ footer {
     margin: auto;
 
 }
+#user-profile-parent {
+    display: block;
+    border: 5px solid #000000;
+    border-radius: 25px;    
+    padding: 25px;
+    width: 600px;
+}
