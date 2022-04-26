@@ -24,11 +24,9 @@
     {% endif %}
     <div>
         <h2 class="centered-t">Dashboard Preferences</h2>
+        <i>Warning:</i> Selecting preferences will narrow news results significantly. 
         <p>
         <h3>News Source Language</h3>
-            Selecting a language will narrow results significantly. 
-            <i>Alternatively,</i> turn on the *translate* option to 
-            translate the entire dashboard.<br><br>
             I only want to see news sources published in 
             <form action="/user-profile/source-language" method="POST">
                 <select name="language-dropdown">
@@ -44,9 +42,8 @@
     <div>
         <p>
         <h3>News Keyword Search Terms</h3>
-        Adding a search term to your news display will 
-        narrow results significantly. What are you interested in? Try 
-        adding something like: 'bitcoin', 'dogs', or 'Ukraine'
+        What are you interested in? Try adding something 
+        like: 'bitcoin', 'dogs', or 'Ukraine'
         to personalize your search results. 
         <form action="/user-profile/keyword-search-term" method="POST">
             One word: <input type="text" name="keyword-search">

@@ -24,9 +24,14 @@ def homepage():
     """App landing page and establish session details"""
 
     # Establish session details
-    user = crud.get_user_email(session["current_user_email"])
+    # THIS CREATES AN ERROR EACH LOAD
+
+    # TEST for session info
+    session_test = session.get("current_user_email", None)
     # If a user is logged in, establish session deets from DB
-    if user != None:
+    if session_test != None:
+        user = crud.get_user_email(session["current_user_email"])
+
         session["current_user_email"] = user.email
         session["current_user_name"] = user.username
         session["current_user_lang"] = user.preferred_lang
@@ -35,6 +40,7 @@ def homepage():
         session["current_user_email"] = None
         session["current_user_lang"] = None
         session["current_user_keyword"] = None
+        session["current_user_name"] = None
 
     return render_template("homepage.html", 
     ALL_COUNTRIES_LIST=ALL_COUNTRIES_LIST)
@@ -139,8 +145,6 @@ def source_language():
     db.session.add(user)
     db.session.commit()
 
-    # TODO: Have news reflect change 
-
     return redirect("/user-profile")
 
 @app.route("/user-profile/keyword-search-term", methods=["POST"])
@@ -155,8 +159,6 @@ def keyword_search_term():
     user.news_search = keyword_search_term
     db.session.add(user)
     db.session.commit()
-
-    # TODO: Have news reflect change
 
     return redirect("/user-profile")
 
@@ -198,10 +200,19 @@ def news_by_country_name():
         payload["language"] = session["current_user_lang"]
 
     news_res = requests.get(news_url, params=payload)
+    print(news_res.url)
     news_data = news_res.json()
     articles = news_data["articles"]
 
     return jsonify(articles)
+
+
+@app.route("/api/world-map")
+def world_map():
+
+
+
+    return redirect("/")
 
 ###########################################################
 if __name__ == "__main__":

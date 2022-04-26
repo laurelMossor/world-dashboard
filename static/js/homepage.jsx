@@ -20,8 +20,10 @@ function restCountriesCall(twoDigCountryCode) {
             `<h2>${countryData.name}</h2>
             <img src=${countryData.flag} id="country-flag">
             <p>Capital: ${countryData.capital} |
-            Population: ${countryData.population} |
-            Currency: (${countryData.currencies[0].code}) ${countryData.currencies[0].name}`)
+            Population: ${countryData.population}<br>
+            Currency: (${countryData.currencies[0].code}) 
+            ${countryData.currencies[0].name} |
+            Primary Language: ${countryData.languages[0].name}`)
         })
 }
 /**Create News API call using country as keyword */
@@ -30,12 +32,12 @@ function countryNameNewsAPIcall(twoDigCountryCode) {
     fetch(`/api/news-by-country-name?${queryString}`)
         .then(articles => articles.json())
         .then(articlesJSON =>  { 
-            console.log(articlesJSON)
             for (const i in articlesJSON) {
                 newsDiv.insertAdjacentHTML('beforeend', 
                 `<h3>${articlesJSON[i].title}</h3>
                 <img src=${articlesJSON[i].urlToImage} id="news-pic"/>
-                <p>${articlesJSON[i].content}</p>`);
+                <p>${articlesJSON[i].description}
+                <a href="${articlesJSON[i].url}">Continue reading</a></p>`);
             }
         });        
 }
@@ -44,7 +46,7 @@ function countryNameNewsAPIcall(twoDigCountryCode) {
 /** Refresh the page so that the blocks are cleared */
 function refreshPage() {
     // Clear previous country
-    newsDiv.innerHTML = `<h2>TOP NEWS</h2>`
+    newsDiv.innerHTML = `<h2>In the News</h2>`
     countryInfoDiv.innerHTML = ""
     // display blocks
     dashboard.style.display = "inline-block"

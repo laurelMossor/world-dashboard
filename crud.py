@@ -3,6 +3,7 @@ import json
 from model import db, connect_to_db, User
 
 
+
 ##### Create all_countries_list and all_countries_dict #####
 with open("world-countries.json") as file:
     all_countries_list = json.loads(file.read())
