@@ -3,8 +3,14 @@
 {% block title %}World Dashboard{% endblock %}
 
 {% block js %}
-<script src="/static/js/homepage.jsx" type="text/jsx"></script>
-<script src="/static/js/map.js"></script>
+
+
+<!-- D3 -->
+<script src="https://d3js.org/d3.v7.js"></script>
+<script src="https://unpkg.com/topojson@3"></script>
+
+
+
 {% endblock %}
 
 {% block content %}
@@ -30,10 +36,10 @@
         <button type="submit" id="country-code-selector">Select</button> 
 </form>
 
-<div id="clickable-map">
-    <svg width="400" height="300">
-    </svg>
-</div>
+<!-- <div> -->
+    <svg id="clickable-map" width="400" height="300"></svg>
+<!-- </div> -->
+
 
 <br><br>
 <div class="dashboard" id="dashboard-parent">
@@ -42,4 +48,9 @@
     <div class="dashboard" id="news-dashboard"></div>
 
 </div>
+
+<script src="/static/js/homepage.js"></script>
+<script src="/static/js/map.js"></script>
+
+
 {% endblock %}

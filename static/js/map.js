@@ -1,45 +1,42 @@
 "use strict";
-// import { select, json } from 'd3';
-
-
-    // width = +mapSVG.attr("width"),
-    // height = +mapSVG.attr("height");
 
 
 
+// "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
+// "/static/map-files/world-map-Geo.geojsonj"
 
 
-fetch("/static/map-files/world-map-Geo.geojson")
-    .then(mapData => mapData.json())
-    .then(responseData => {
 
-        // svg
-        let mapSVG = d3.select("svg");
-        let width = mapSVG.attr("width");
-        let height = mapSVG.attr("height");
 
-        // Map and projection
-        let projection = d3.geoNaturalEarth1()
-        .scale(width / 1.3 / Math.PI)
-        .translate([width / 2, height / 2])
 
-        // Everything goes here
-        // Instead of the url, give it d3.json(responseData)
-        d3.json(responseData, function(data){
+        let width = 960;
+        let height = 500;
 
-                // Draw the map
-            mapSVG.append("g")
-                .selectAll("path")
-                .data(data.features)
-                // Features is how it draws the lines
-                .enter().append("path")
-                    .attr("fill", "#69b3a2")
-                    .attr("d", d3.geoPath()
-                        .projection(projection)
-                    )
-                    .style("stroke", "#fff")
+        const projection = d3.geoMercator()
+        .center([0, 5 ])
+        .scale(150)
+        .rotate([-180,0]);
+
+        const svg = d3.select("#clickable-map");
+            svg.attr("width", width);
+            svg.attr("height", height);
+
+        const path = d3.geoPath()
+            .projection(projection);
+
+        const g = svg.append("g");
+
+// load and display the World
+        d3.json("/static/map-files/map-topojson-LITE.json").then(function(topology) {
+
+            g.selectAll("path")
+            .data(topojson.feature(topology, topology.objects.ne_10m_admin_0_countries).features)
+            .enter().append("path")
+            .attr("d", path);
+
         })
-    })
+        // event listeners here?
+        ;
 
 
 
