@@ -61,15 +61,18 @@ footer {
 }
 
 .Country {
-    fill: lightgreen;
+    fill: #2C8140;
     stroke: white;
     stroke-width: 0.5px;
 }
 .Country:hover {
-    fill: red;
+    fill: #195C29;
 }
 
 #clickable-map {
     display: inline-block;
 }
-
+#country-name-box-parent {
+    display: inline-block;
+    text-align: center;
+}
