@@ -10,7 +10,6 @@ html {
     text-align: center;
     display: none;
 }
-
 #news-dashboard {
     display: inline-block;
     border: 5px solid black;
@@ -31,11 +30,9 @@ html {
 #country-flag {
     width: 400px;
 }
-
 footer {
     font-size: small;
 }
-
 #home-banner {
     max-width: 100%;
     margin: 0;
@@ -62,3 +59,17 @@ footer {
 .centered-t {
     text-align: center;
 }
+
+.Country {
+    fill: lightgreen;
+    stroke: white;
+    stroke-width: 0.5px;
+}
+.Country:hover {
+    fill: red;
+}
+
+#clickable-map {
+    display: inline-block;
+}
+
