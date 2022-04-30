@@ -4,36 +4,31 @@
 
 {% block js %}
 
-
 <!-- D3 -->
 <script src="https://d3js.org/d3.v6.js"></script>
 <script src="https://unpkg.com/topojson@3"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/d3-zoom@3"></script> -->
 
-
-
-
 {% endblock %}
 
 {% block content %}
-    <img src="static/images/dashboard-banner.png" id="home-banner"/>
-    <div id="login-link">
-        <a href="/login-page">Log in</a> or
-        <a href="/create-account-page">Create an Account</a>
-        {% if session["current_user_name"] != None %}
-            | Hello, {{ session["current_user_name"] }} |
-            <a href="/user-profile">User Profile</a>
-            <form action="/logout"><button type="submit">Logout</button></form>
-        {% endif %}
-    </div>
+<div id="login-link">
+    <a href="/login-page">Log in</a> or
+    <a href="/create-account-page">Create an Account</a>
+    {% if session["current_user_name"] != None %}
+    | Hello, {{ session["current_user_name"] }} |
+    <a href="/user-profile">User Profile</a>
+    <form action="/logout"><button type="submit">Logout</button></form>
+    {% endif %}
+</div>
 
-    <h1>Select a country to get started</h1>
-    
+<h1>Select a country to get started</h1>
+
 
 <div id="country-name-box-parent">
 </div>
 
-<div id="map-parent">
+<div id="map-parent" class="container-fluid">
     <svg id="clickable-map"></svg>
 </div>
 
