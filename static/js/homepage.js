@@ -58,8 +58,20 @@ function refreshPage() {
     // display blocks
     dashboard.style.display = "inline-block"
 }
+/** Generate dynamic button for generating dashboard */
+function dynamicButton(evt) {
+    const countryName = evt.target.id;
+    d3.select("#country-name-box-parent")
+        .html("")
+        .append("form")
+        .insert("button")
+        .attr("type", "submit")
+        .attr("id", "generate-dashboard-button")
+        .text(`${countryName}: Generate Dashboard`)
+};
 
 /////// MAIN EVENT: Sumbit button event ////////////
+// New button event will need to be the dynamically generated button
 countryCodeSelectButton.addEventListener("click", (evt) => {
     evt.preventDefault();
     const twoDigCountryCode = dropDown.value.toLowerCase();
@@ -113,15 +125,13 @@ d3.json("static/map-files/world-map-TOPO.json")
             .attr("id", function(d) {
             return `${d.properties.NAME}`
             })
-            .on("click", function(evt) {
-                // evt.target.id is the country name, and that's how we'll call the APIs
-                // I want a box to show up with a tooltip:
-                    // Displays country name, and a button that says "Activate Dashboard"
-                const countryName = evt.target.id;
-                d3.select("#country-name-box").text(`${countryName}`);
-
-            })
+            .on("click", (evt) => dynamicButton(evt))
             .append("title").text(function(d) {return `${d.properties.NAME}`;})
             ;
         });
+
+
+
+// Function, on click -> create a button to generate Dashboard
+// d3.select("#country-name-box-parent")
 

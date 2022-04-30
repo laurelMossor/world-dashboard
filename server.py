@@ -207,12 +207,12 @@ def news_by_country_name():
     return jsonify(articles)
 
 
-@app.route("/api/world-map")
-def world_map():
+# @app.route("/api/world-map")
+# def world_map():
 
 
 
-    return redirect("/")
+#     return redirect("/")
 
 ###########################################################
 if __name__ == "__main__":
