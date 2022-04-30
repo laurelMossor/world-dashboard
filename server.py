@@ -182,8 +182,8 @@ def reset_preferences():
 def news_by_country_name():
     """Call the News API with the NAME"""
 
-    two_dig_country_code = request.args.get("twoDigCountryCode")
-    country_name = ALL_COUNTRIES_DICT[two_dig_country_code.upper()]
+    country_name = request.args.get("countryName")
+    # country_name = ALL_COUNTRIES_DICT[two_dig_country_code.upper()]
 
     news_url = "https://newsapi.org/v2/everything"
 
@@ -206,13 +206,6 @@ def news_by_country_name():
 
     return jsonify(articles)
 
-
-# @app.route("/api/world-map")
-# def world_map():
-
-
-
-#     return redirect("/")
 
 ###########################################################
 if __name__ == "__main__":

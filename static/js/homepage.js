@@ -9,8 +9,6 @@
 
 
 ////////////////// Key document elements /////////////
-const dropDown = document.querySelector('select[name="country-dropdown"]');
-const countryCodeSelectButton = document.getElementById("country-code-selector");
 const newsDiv = document.querySelector("#news-dashboard");
 const dashboard = document.querySelector("#dashboard-parent");
 const countryInfoDiv = document.querySelector("#country-info");
@@ -18,25 +16,27 @@ const countryInfoDiv = document.querySelector("#country-info");
 
 //////////// HELPER Functions for the Button Event ///////////////
 
+// **** I'm going to need to make mutliple fetchs, using name and full name
 /** Create and call the REST Countries API */
-function restCountriesCall(twoDigCountryCode) {
-    const RESTcountiresURL = "https://restcountries.com/v2/alpha/"
-    fetch(`${RESTcountiresURL}${twoDigCountryCode}`)
+function restCountriesCall(countryName) {
+    // const RESTcountiresURL = "https://restcountries.com/v2/alpha/"
+    fetch(`https://restcountries.com/v2/name/${countryName}?fullText=true`)
+        // .then(response => console.log(response.url))
         .then(response => response.json())
         .then(countryData => {
             countryInfoDiv.insertAdjacentHTML('beforeend',
-            `<h2>${countryData.name}</h2>
-            <img src=${countryData.flag} id="country-flag">
-            <p>Capital: ${countryData.capital} |
-            Population: ${countryData.population}<br>
-            Currency: (${countryData.currencies[0].code}) 
-            ${countryData.currencies[0].name} |
-            Primary Language: ${countryData.languages[0].name}`)
+            `<h2>${countryData[0].name}</h2>
+            <img src=${countryData[0].flag} id="country-flag">
+            <p>Capital: ${countryData[0].capital} |
+            Population: ${countryData[0].population}<br>
+            Currency: (${countryData[0].currencies[0].code}) 
+            ${countryData[0].currencies[0].name} |
+            Primary Language: ${countryData[0].languages[0].name}`)
         })
 }
 /**Create News API call using country as keyword */
-function countryNameNewsAPIcall(twoDigCountryCode) {
-    const queryString = new URLSearchParams({twoDigCountryCode}).toString();
+function countryNameNewsAPIcall(countryName) {
+    const queryString = new URLSearchParams({countryName}).toString();
     fetch(`/api/news-by-country-name?${queryString}`)
         .then(articles => articles.json())
         .then(articlesJSON =>  { 
@@ -58,8 +58,26 @@ function refreshPage() {
     // display blocks
     dashboard.style.display = "inline-block"
 }
+
+function generateDashboard(evt, countryName) {
+    evt.preventDefault();
+    refreshPage();
+    countryNameNewsAPIcall(countryName);
+    restCountriesCall(countryName);
+};
+
+
 /** Generate dynamic button for generating dashboard */
+// THIS will hold the MAIN EVENT -- 
+// Generate button, on click -> generateDashboard
+    // prevent default, 
+    // refresh page, 
+    // get country name, 
+    // country name news call
+    // rest countries call 
+
 function dynamicButton(evt) {
+    // Upon click of a country, button is generated using the evt target
     const countryName = evt.target.id;
     d3.select("#country-name-box-parent")
         .html("")
@@ -68,21 +86,24 @@ function dynamicButton(evt) {
         .attr("type", "submit")
         .attr("id", "generate-dashboard-button")
         .text(`${countryName}: Generate Dashboard`)
+        .on("click", (evt) => generateDashboard(evt, countryName))
 };
+
+
 
 /////// MAIN EVENT: Sumbit button event ////////////
 // New button event will need to be the dynamically generated button
-countryCodeSelectButton.addEventListener("click", (evt) => {
-    evt.preventDefault();
-    const twoDigCountryCode = dropDown.value.toLowerCase();
+// countryCodeSelectButton.addEventListener("click", (evt) => {
+//     evt.preventDefault();
+//     const twoDigCountryCode = dropDown.value.toLowerCase();
 
-    refreshPage()
-    countryNameNewsAPIcall(twoDigCountryCode)
+//     refreshPage()
+//     countryNameNewsAPIcall(twoDigCountryCode)
 
-    // REST Countries API call
-    restCountriesCall(twoDigCountryCode);
+//     // REST Countries API call
+//     restCountriesCall(twoDigCountryCode);
 
-});
+// });
 
 
 //////////////////////////// Map specs /////////////////////////

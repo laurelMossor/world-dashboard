@@ -29,14 +29,7 @@
 
     <h1>Select a country to get started</h1>
     
-    <form action="/api/news-country">
-        <select name="country-dropdown">
-        {% for country in ALL_COUNTRIES_LIST %}
-            <option value="{{ country[1] }}">{{country[0]}}</option>
-        {% endfor %}
-        </select>
-        <button type="submit" id="country-code-selector">Select</button> 
-</form>
+
 <div id="country-name-box-parent">
 </div>
 
