@@ -18,20 +18,20 @@ const countryInfoDiv = document.querySelector("#country-info");
 
 // **** I'm going to need to make mutliple fetchs, using name and full name
 /** Create and call the REST Countries API */
-function restCountriesCall(countryName) {
-    // const RESTcountiresURL = "https://restcountries.com/v2/alpha/"
-    fetch(`https://restcountries.com/v2/name/${countryName}?fullText=true`)
+function restCountriesCall(countryCode) {
+    const RESTcountiresURL = "https://restcountries.com/v2/alpha/"
+    fetch(`${RESTcountiresURL}${countryCode}`)
         // .then(response => console.log(response.url))
         .then(response => response.json())
         .then(countryData => {
             countryInfoDiv.insertAdjacentHTML('beforeend',
-            `<h2>${countryData[0].name}</h2>
-            <img src=${countryData[0].flag} id="country-flag">
-            <p>Capital: ${countryData[0].capital} |
-            Population: ${countryData[0].population}<br>
-            Currency: (${countryData[0].currencies[0].code}) 
-            ${countryData[0].currencies[0].name} |
-            Primary Language: ${countryData[0].languages[0].name}`)
+            `<h2>${countryData.name}</h2>
+            <img src=${countryData.flag} id="country-flag">
+            <p>Capital: ${countryData.capital} |
+            Population: ${countryData.population}<br>
+            Currency: (${countryData.currencies[0].code}) 
+            ${countryData.currencies[0].name} |
+            Primary Language: ${countryData.languages[0].name}`)
         })
 }
 /**Create News API call using country as keyword */
@@ -59,11 +59,11 @@ function refreshPage() {
     dashboard.style.display = "inline-block"
 }
 
-function generateDashboard(evt, countryName) {
+function generateDashboard(evt, countryName, countryCode) {
     evt.preventDefault();
     refreshPage();
     countryNameNewsAPIcall(countryName);
-    restCountriesCall(countryName);
+    restCountriesCall(countryCode);
 };
 
 
@@ -71,7 +71,9 @@ function generateDashboard(evt, countryName) {
 
 function dynamicButton(evt) {
     // Upon click of a country, button is generated using the evt target
-    const countryName = evt.target.id;
+    const countryCode = evt.target.id;
+    const countryName = document.querySelector(`[id="${countryCode}"] title`).textContent
+
     d3.select("#country-name-box-parent")
         .html("")
         .append("form")
@@ -80,7 +82,7 @@ function dynamicButton(evt) {
         .attr("class", "text-nowrap btn btn-secondary btn-lg")
         .attr("id", "generate-dashboard-button")
         .text(`${countryName}: Generate Dashboard`)
-        .on("click", (evt) => generateDashboard(evt, countryName))
+        .on("click", (evt) => generateDashboard(evt, countryName, countryCode))
 };
 
 
@@ -137,10 +139,9 @@ d3.json("static/map-files/world-map-TOPO.json")
             .enter().append("path")
             .attr("d", path)
             .attr("class", "Country")
-            .attr("id", function(d) {
-            return `${d.properties.NAME}`
-            })
-            .on("click", (evt) => dynamicButton(evt))
+            .attr("id", function(d) {return `${d.properties.ISO_A2}`})
+            .attr("name", function(d) {return `${d.properties.ISO_A2}`})
+            .on("click", function(evt) {return dynamicButton(evt);})
             .append("title").text(function(d) {return `${d.properties.NAME}`;})
             ;
         });
