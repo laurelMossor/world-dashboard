@@ -3,6 +3,22 @@ import json
 from model import db, connect_to_db, User
 
 
+############ TOPOjson editing #################################
+# with open("static/map-files/world-map-TOPO.json") as file:
+#     TOPOjson = json.loads(file.read())
+#     TOPOjson_each_country = TOPOjson["objects"]["ne_10m_admin_0_sovereignty"]["geometries"]
+
+# def topojson_fixer(json):
+#     """Returns a dict, key is ISO_A2, and value is Name of country"""
+#     country_and_code = {}
+
+#     for i in range(len(TOPOjson_each_country)):
+#         key = TOPOjson_each_country[i]["properties"]["ISO_A2"]
+#         country_and_code[key] = [country_and_code.get(key, "")] + [(TOPOjson_each_country[i]["properties"]["NAME"])]
+
+#     return country_and_code
+
+
 
 ##### Create all_countries_list and all_countries_dict #####
 with open("world-countries.json") as file:
@@ -54,6 +70,6 @@ def check_for_username(x_email):
 
 
 
-if __name__ == '__main__':
-    from server import app
-    connect_to_db(app)
+# if __name__ == '__main__':
+#     from server import app
+#     connect_to_db(app)
