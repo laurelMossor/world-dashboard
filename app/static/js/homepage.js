@@ -42,7 +42,7 @@ function countryNameNewsAPIcall(countryName) {
         .then(articlesJSON =>  { 
             for (const i in articlesJSON) {
                 newsDiv.insertAdjacentHTML('beforeend', 
-                `<h3>${articlesJSON[i].title}</h3>
+                `<h4>${articlesJSON[i].title}</h4>
                 <img src=${articlesJSON[i].urlToImage} id="news-pic"/>
                 <p>${articlesJSON[i].description}
                 <a href="${articlesJSON[i].url}">Continue reading</a></p>`);
@@ -68,13 +68,6 @@ function generateDashboard(evt, countryName) {
 
 
 /** Generate dynamic button for generating dashboard */
-// THIS will hold the MAIN EVENT -- 
-// Generate button, on click -> generateDashboard
-    // prevent default, 
-    // refresh page, 
-    // get country name, 
-    // country name news call
-    // rest countries call 
 
 function dynamicButton(evt) {
     // Upon click of a country, button is generated using the evt target
@@ -84,6 +77,7 @@ function dynamicButton(evt) {
         .append("form")
         .insert("button")
         .attr("type", "submit")
+        .attr("class", "text-nowrap btn btn-secondary btn-lg")
         .attr("id", "generate-dashboard-button")
         .text(`${countryName}: Generate Dashboard`)
         .on("click", (evt) => generateDashboard(evt, countryName))
@@ -118,7 +112,7 @@ const projection = d3.geoMercator()
 const svg = d3.select("#clickable-map");
     svg.attr("width", width);
     svg.attr("height", height);
-    svg.attr("viewBox", [0,0,width,height]);
+    svg.attr("viewBox", [3,3,width,height]);
 
 const path = d3.geoPath()
     .projection(projection);

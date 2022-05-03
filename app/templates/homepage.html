@@ -11,29 +11,20 @@
 {% endblock %}
 
 {% block content %}
-<div id="login-link">
-    <a href="/login-page">Log in</a> or
-    <a href="/create-account-page">Create an Account</a>
-    {% if session["current_user_name"] != None %}
-    | Hello, {{ session["current_user_name"] }} |
-    <a href="/user-profile">User Profile</a>
-    <form action="/logout"><button type="submit">Logout</button></form>
-    {% endif %}
+
+<!-- <h1>Select a country to get started</h1> -->
+
+<div class="container-fluid">
+<div class="col-12" id="country-name-box-parent">
+</div>
 </div>
 
-<h1>Select a country to get started</h1>
-
-
-<div id="country-name-box-parent">
-</div>
-
-<div id="map-parent" class="container-fluid">
+<div class="container-fluid col-12" id="map-parent">
     <svg id="clickable-map"></svg>
 </div>
 
-
 <br><br>
-<div class="dashboard" id="dashboard-parent">
+<div class="container dashboard" id="dashboard-parent">
     
     <div class="dashboard" id="country-info"></div>
     <div class="dashboard" id="news-dashboard"></div>

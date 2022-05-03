@@ -1,7 +1,8 @@
+/* https://coolors.co/palette/000000-14213d-fca311-e5e5e5-ffffff */
 
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background-color: aliceblue;
+    background-color: #FFFFFF;
     margin: 0;
 }
 .dashboard {
@@ -14,14 +15,14 @@ body {
     display: inline-block;
     border: 5px solid black;
     border-radius: 25px;
-    background-color: #ffffff;
+    background-color: #E5E5E5;
     width: 500px;
 }
 #country-info {
     display: inline-block;
     border: 5px solid black;
     border-radius: 25px;
-    background-color: #ffffff;
+    background-color: #E5E5E5;
     width: 500px;
 }
 #news-pic {
@@ -43,7 +44,7 @@ footer {
     display: block;
     border: 5px solid #000000;
     padding: 50px;
-    width: 300px;
+    width: 400px;
     border-radius: 25px;
     margin: auto;
 
@@ -54,6 +55,7 @@ footer {
     border-radius: 25px;    
     padding: 25px;
     width: 600px;
+    margin: auto;
 }
 
 .centered-t {
@@ -61,18 +63,26 @@ footer {
 }
 
 .Country {
-    fill: #2C8140;
+    fill: #14213D;
     stroke: white;
     stroke-width: 0.5px;
 }
 .Country:hover {
-    fill: #195C29;
+    fill: #FCA311;
 }
 
 #clickable-map {
-    display: inline-block;
+    display: block;
+    border: 5px solid #000000;
+    /* padding: 50px; */
+    border-radius: 25px;
+    margin: auto;
 }
 #country-name-box-parent {
     display: inline-block;
     text-align: center;
+}
+
+#generate-dashboard-button {
+    background-color: #FCA311;
 }
