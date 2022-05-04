@@ -39,11 +39,10 @@ function exchangeRateAPI(currencyCode) {
     const queryString = new URLSearchParams({currencyCode}).toString();
     fetch(`/api/exchange-rate?${queryString}`)
         .then(response => response.json())
-        .then(responseJson => writeExchnageRate(responseJson))
-
+        .then(responseJson => writeExchangeRate(responseJson))
 }
 
-function writeExchnageRate(responseJson) {
+function writeExchangeRate(responseJson) {
     // HELPER FUNCTION: ****exchangeRateAPI(currencyCode)****
 
     exchangeRateDiv.insertAdjacentHTML("beforeend",
@@ -130,6 +129,8 @@ function dynamicButton(evt) {
         .attr("type", "submit")
         .attr("class", "text-nowrap btn btn-secondary btn-lg")
         .attr("id", "generate-dashboard-button")
+        .attr("data-toggle", "modal")
+        .attr("data-target", "#modal-dashboard")
         .text(`${countryName}: Generate Dashboard`)
         .on("click", (evt) => generateDashboard(evt, countryName, countryCode))
 };
