@@ -200,11 +200,25 @@ def news_by_country_name():
         payload["language"] = session["current_user_lang"]
 
     news_res = requests.get(news_url, params=payload)
-    print(news_res.url)
+    # print(news_res.url)
     news_data = news_res.json()
     articles = news_data["articles"]
 
     return jsonify(articles)
+
+@app.route("/api/exchange-rate")
+def exchange_rate_API():
+
+    currency_code = request.args.get("currencyCode")
+    currency_preference = "USD"
+    exchange_rate_url = f'https://api.exchangerate.host/convert?from={currency_preference}&to={currency_code}'
+    response = requests.get(exchange_rate_url)
+    data = response.json()
+    
+    print("************")
+    print(response.url)
+
+    return jsonify(data)
 
 
 ###########################################################

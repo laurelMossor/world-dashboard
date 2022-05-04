@@ -25,6 +25,14 @@ body {
     background-color: #E5E5E5;
     width: 500px;
 }
+#exchange-rate {
+    display: inline-block;
+    border: 5px solid black;
+    border-radius: 25px;
+    background-color: #E5E5E5;
+    width: 500px;
+}
+
 #news-pic {
     width: 400px;
 }

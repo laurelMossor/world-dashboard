@@ -12,30 +12,64 @@
 const newsDiv = document.querySelector("#news-dashboard");
 const dashboard = document.querySelector("#dashboard-parent");
 const countryInfoDiv = document.querySelector("#country-info");
+const exchangeRateDiv = document.querySelector("#exchange-rate");
 
 
 //////////// HELPER Functions for the Button Event ///////////////
 
-// **** I'm going to need to make mutliple fetchs, using name and full name
-/** Create and call the REST Countries API */
-function restCountriesCall(countryCode) {
+/** Async fetch REST API so that I can get the currency code */
+async function restCountriesAndExchangeCall(countryCode) {
+    // HELPER FUNCTION:  ****generateDashboard(evt, countryName, countryCode)****
+
     const RESTcountiresURL = "https://restcountries.com/v2/alpha/"
-    fetch(`${RESTcountiresURL}${countryCode}`)
-        // .then(response => console.log(response.url))
+    let response = await fetch(`${RESTcountiresURL}${countryCode}`);
+    let countryData = await response.json();
+    writeRestCountriesDiv(countryData);
+
+    // Exchange rate API call relies on the currencyCode
+    // Must call here
+    let currencyCode = await countryData.currencies[0].code;
+    exchangeRateAPI(currencyCode)
+}
+
+/** Nested function within REST countries to get exchange rate */
+function exchangeRateAPI(currencyCode) {
+    // HELPER FUNCTION: ****restCountriesAndExchangeCall()****
+
+    const queryString = new URLSearchParams({currencyCode}).toString();
+    fetch(`/api/exchange-rate?${queryString}`)
         .then(response => response.json())
-        .then(countryData => {
-            countryInfoDiv.insertAdjacentHTML('beforeend',
+        .then(responseJson => writeExchnageRate(responseJson))
+
+}
+
+function writeExchnageRate(responseJson) {
+    // HELPER FUNCTION: ****exchangeRateAPI(currencyCode)****
+
+    exchangeRateDiv.insertAdjacentHTML("beforeend",
+        `<p>${responseJson["result"]}</p>`
+    )
+}
+
+/** A split version of pervious function, just write the REST Countries info div */
+function writeRestCountriesDiv(countryData) {
+    // HELPER FUNCTION: ****restCountriesAndExchangeCall()****
+    
+    countryInfoDiv.insertAdjacentHTML('beforeend',
             `<h2>${countryData.name}</h2>
             <img src=${countryData.flag} id="country-flag">
-            <p>Capital: ${countryData.capital} |
-            Population: ${countryData.population}<br>
-            Currency: (${countryData.currencies[0].code}) 
-            ${countryData.currencies[0].name} |
-            Primary Language: ${countryData.languages[0].name}`)
-        })
+            <p><b>Capital</b>: ${countryData.capital} |
+            <b>Population</b>: ${countryData.population}<br>
+            <b>Currency</b>: ${countryData.currencies[0].name} 
+            (${countryData.currencies[0].code}) |
+            <b>Primary Language</b>: ${countryData.languages[0].name}`)
 }
+
+
 /**Create News API call using country as keyword */
 function countryNameNewsAPIcall(countryName) {
+    // HELPER FUNCTION:  ****generateDashboard(evt, countryName, countryCode)****
+
     const queryString = new URLSearchParams({countryName}).toString();
     fetch(`/api/news-by-country-name?${queryString}`)
         .then(articles => articles.json())
@@ -52,24 +86,39 @@ function countryNameNewsAPIcall(countryName) {
 
 /** Refresh the page so that the blocks are cleared */
 function refreshPage() {
+    // HELPER FUNCTION:  ****generateDashboard(evt, countryName, countryCode)****
+
     // Clear previous country
     newsDiv.innerHTML = `<h2>In the News</h2>`
     countryInfoDiv.innerHTML = ""
+    exchangeRateDiv.innerHTML = ""
     // display blocks
     dashboard.style.display = "inline-block"
 }
 
+
+/////////////////// MAIN EVENT: Sumbit button event ////////////////////
 function generateDashboard(evt, countryName, countryCode) {
+    // HELPER FUNCTION:  ****dynamicButton(evt)****
+
     evt.preventDefault();
+
+    // Clear previous results
     refreshPage();
+
+    // Call the News API
     countryNameNewsAPIcall(countryName);
-    restCountriesCall(countryCode);
+
+    // REST Countries API call and Exchange Rate call
+    restCountriesAndExchangeCall(countryCode);
+
+
 };
 
-
 /** Generate dynamic button for generating dashboard */
-
 function dynamicButton(evt) {
+    // HELPER FUNCTION:  ****Create Map****
+
     // Upon click of a country, button is generated using the evt target
     const countryCode = evt.target.id;
     const countryName = document.querySelector(`[id="${countryCode}"] title`).textContent
@@ -85,21 +134,6 @@ function dynamicButton(evt) {
         .on("click", (evt) => generateDashboard(evt, countryName, countryCode))
 };
 
-
-
-/////// MAIN EVENT: Sumbit button event ////////////
-// New button event will need to be the dynamically generated button
-// countryCodeSelectButton.addEventListener("click", (evt) => {
-//     evt.preventDefault();
-//     const twoDigCountryCode = dropDown.value.toLowerCase();
-
-//     refreshPage()
-//     countryNameNewsAPIcall(twoDigCountryCode)
-
-//     // REST Countries API call
-//     restCountriesCall(twoDigCountryCode);
-
-// });
 
 
 //////////////////////////// Map specs /////////////////////////
