@@ -28,7 +28,7 @@ class User(db.Model):
     username = db.Column(db.String(25), unique=False, default="Friend")
     email = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
-    home_country = db.Column(db.String(50), default="None")
+    preferred_currency = db.Column(db.String(50), default="USD")
     preferred_lang = db.Column(db.String(50), default="None")
     news_search = db.Column(db.String(50), default="None")
 

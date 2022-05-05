@@ -44,9 +44,16 @@ function exchangeRateAPI(currencyCode) {
 
 function writeExchangeRate(responseJson) {
     // HELPER FUNCTION: ****exchangeRateAPI(currencyCode)****
+    const exchangeRate = responseJson["result"]
+    const exchangeFrom = responseJson["query"].from
+    const exchangeTo = responseJson["query"].to
 
     exchangeRateDiv.insertAdjacentHTML("beforeend",
-        `<p>${responseJson["result"]}</p>`
+        `<p>
+        <h4>Currency Exchange Rate</h4>
+        <b>1 ${exchangeFrom}</b> is equal to
+        <b>${exchangeRate} ${exchangeTo}</b>
+        </p>`
     )
 }
 
@@ -56,7 +63,7 @@ function writeRestCountriesDiv(countryData) {
     
     countryInfoDiv.insertAdjacentHTML('beforeend',
             `<h2>${countryData.name}</h2>
-            <img src=${countryData.flag} id="country-flag">
+            <img src=${countryData.flag} class="dash-img">
             <p><b>Capital</b>: ${countryData.capital} |
             <b>Population</b>: ${countryData.population}<br>
             <b>Currency</b>: ${countryData.currencies[0].name} 
@@ -76,7 +83,7 @@ function countryNameNewsAPIcall(countryName) {
             for (const i in articlesJSON) {
                 newsDiv.insertAdjacentHTML('beforeend', 
                 `<h4>${articlesJSON[i].title}</h4>
-                <img src=${articlesJSON[i].urlToImage} id="news-pic"/>
+                <img src=${articlesJSON[i].urlToImage} class="dash-img"/>
                 <p>${articlesJSON[i].description}
                 <a href="${articlesJSON[i].url}">Continue reading</a></p>`);
             }

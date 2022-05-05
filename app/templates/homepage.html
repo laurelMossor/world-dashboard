@@ -12,14 +12,8 @@
 
 {% block content %}
 
-<!-- TEST BLOCK: Modals -->
 
 <div class="container-fluid">
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" 
-data-target="#modal-dashboard">
-	Launch demo modal
-</button>
 
 <!-- Modal -->
 <div class="modal fade" id="modal-dashboard" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -27,24 +21,30 @@ data-target="#modal-dashboard">
 		<div class="modal-content">
 				<div class="modal-header">
 				<h5 class="modal-title">Dashboard</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" 
+					aria-label="Close" style="background-color: #FCA311">
 					<span aria-hidden="true">&times;</span>
 					</button>
 			</div>
 			<div class="modal-body">
 
-				<div class="container dashboard" id="dashboard-parent">
-    
-					<div class="dashboard" id="exchange-rate"></div>
-					<div class="dashboard" id="country-info"></div>
-					<div class="dashboard" id="news-dashboard"></div>
-				
+				<div class="container-fluid dashboard" id="dashboard-parent">
+					<div class="row">
+						<div class="col-6">
+							<div class="dashboard dash-child col-12" id="news-dashboard"></div>
+						</div>
+						<div class="col-6">
+							<div class="dashboard dash-child col-12" id="country-info"></div>
+							<div class="dashboard dash-child col-12" id="exchange-rate"></div>
+						</div>
+					</div>
 				</div>
 
 			</div>
 
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-secondary" 
+				data-dismiss="modal" style="background-color: #FCA311">Close</button>
 			</div>
 		</div>
 	</div>
@@ -67,7 +67,6 @@ data-target="#modal-dashboard">
 
 
 <script src="/static/js/homepage.js"></script>
-<!-- <script src="/static/js/map.js"></script> -->
 
 
 {% endblock %}

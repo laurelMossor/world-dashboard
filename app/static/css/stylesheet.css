@@ -11,34 +11,19 @@ body {
     text-align: center;
     display: none;
 }
-#news-dashboard {
+.dash-child {
     display: inline-block;
+    font-size: small;
     border: 5px solid black;
     border-radius: 25px;
     background-color: #E5E5E5;
-    width: 500px;
-}
-#country-info {
-    display: inline-block;
-    border: 5px solid black;
-    border-radius: 25px;
-    background-color: #E5E5E5;
-    width: 500px;
-}
-#exchange-rate {
-    display: inline-block;
-    border: 5px solid black;
-    border-radius: 25px;
-    background-color: #E5E5E5;
-    width: 500px;
 }
 
-#news-pic {
-    width: 400px;
+.dash-img {
+    width: 90%;
+    height: auto;
 }
-#country-flag {
-    width: 400px;
-}
+
 footer {
     font-size: small;
 }

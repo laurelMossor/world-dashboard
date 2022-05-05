@@ -16,6 +16,7 @@ NEWS_API_KEY = os.environ['NEWS_API_KEY']
 ALL_COUNTRIES_LIST = crud.all_countries_list
 ALL_COUNTRIES_DICT = crud.all_countries_dict
 NEWS_LANGUAGES = crud.NEWS_LANGUAGES
+WORLD_CURRENCIES = crud.world_currencies
 
 
 
@@ -32,15 +33,19 @@ def homepage():
     if session_test != None:
         user = crud.get_user_email(session["current_user_email"])
 
+        # If there is a user, establish session details from db
         session["current_user_email"] = user.email
         session["current_user_name"] = user.username
         session["current_user_lang"] = user.preferred_lang
         session["current_user_keyword"] = user.news_search
+        session["current_user_currency"] = user.preferred_currency
     else:
+        # Else, establish empty session
         session["current_user_email"] = None
         session["current_user_lang"] = None
         session["current_user_keyword"] = None
         session["current_user_name"] = None
+        session["current_user_currency"] = None
 
     return render_template("homepage.html", 
     ALL_COUNTRIES_LIST=ALL_COUNTRIES_LIST)
@@ -54,6 +59,7 @@ def logout():
     session["current_user_name"] = None
     session["current_user_lang"] = None
     session["curent_user_keyword"] = None
+    session["current_user_currency"] = None
     flash("You have been logged out.")
 
     return redirect("/")
@@ -114,7 +120,7 @@ def create_user():
 def user_profile():
 
     return render_template("user-profile.html", 
-    NEWS_LANGUAGES=NEWS_LANGUAGES)
+    NEWS_LANGUAGES=NEWS_LANGUAGES, WORLD_CURRENCIES=WORLD_CURRENCIES)
 
 @app.route("/user-profile/create-username", methods=["POST"])
 def create_username():
@@ -162,6 +168,23 @@ def keyword_search_term():
 
     return redirect("/user-profile")
 
+@app.route("/user-profile/currency-preference", methods=["POST"])
+def choose_currency():
+    """User can choose the preferred default exchange rate currency
+    Sets this preference in the DB and the session"""
+
+    language_preference = request.form.get("currency-dropdown")
+    # Add to session
+    session["current_user_currency"] = language_preference
+    # Add to DB
+    user = crud.get_user_email(session["current_user_email"])
+    user.preferred_currency = language_preference
+    db.session.add(user)
+    db.session.commit()
+
+
+    return redirect("/user-profile")
+
 @app.route("/user-profile/reset-preferences")
 def reset_preferences():
     """Resets the users preferences in the database and session"""
@@ -169,13 +192,16 @@ def reset_preferences():
     user = crud.get_user_email(session["current_user_email"])
     user.news_search = None
     user.preferred_lang = None
+    user.preferred_currency = "USD"
     db.session.add(user)
     db.session.commit()
 
     session["current_user_keyword"] = None
     session["current_user_lang"] = None
+    session["current_user_currency"] = "USD"
 
     return redirect("/user-profile")
+
 
 ###################### CALLING APIs #############################
 @app.route("/api/news-by-country-name")
@@ -193,6 +219,7 @@ def news_by_country_name():
         "sortBy": "relevancy",
         "pageSize": "5",
     }
+
     if session["current_user_keyword"] != None:
         payload["q"] = session["current_user_keyword"] + " " + country_name
 
@@ -200,7 +227,7 @@ def news_by_country_name():
         payload["language"] = session["current_user_lang"]
 
     news_res = requests.get(news_url, params=payload)
-    # print(news_res.url)
+
     news_data = news_res.json()
     articles = news_data["articles"]
 
@@ -210,15 +237,13 @@ def news_by_country_name():
 def exchange_rate_API():
 
     currency_code = request.args.get("currencyCode")
-    currency_preference = "USD"
-    exchange_rate_url = f'https://api.exchangerate.host/convert?from={currency_preference}&to={currency_code}'
+    currency_preference = session["current_user_currency"]
+    exchange_rate_url = f'https://api.exchangerate.host/convert?from={currency_preference}&to={currency_code}&places=2'
     response = requests.get(exchange_rate_url)
     data = response.json()
-    
-    print("************")
-    print(response.url)
 
     return jsonify(data)
+
 
 
 ###########################################################

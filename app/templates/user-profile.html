@@ -11,20 +11,30 @@
 
     <h1>Hello, {{session["current_user_name"]}}!</h1>
 <div id="user-profile-parent">
-    <!-- SHOULD SAY '==', changing it to '!=' while testing -->
+    <!-- SHOULD SAY '==' /// changing it to '!=' while testing -->
     {% if session["current_user_name"] == "Friend" %}
     <div>        
+        <h2 class="centered-t">Dashboard Preferences</h2>
         <h3>Create username</h3>
         <form action="/user-profile/create-username" method="POST">
             What should we call you? <input type="text" name="create-username">
             <input type="submit">
-        </form>
+        </form><br>
     </div>
     {% endif %}
     <div>
-        <h2 class="centered-t">Dashboard Preferences</h2>
-        <i>Warning:</i> Selecting preferences will narrow news results significantly. 
-        <p>
+        <h3>Currency Exchange Default</h3>
+        <form action="/user-profile/currency-preference" method="POST">
+            <select name="currency-dropdown">
+                {% for currency in WORLD_CURRENCIES %}
+                    <option value="{{ currency[1] }}">{{ currency[0] }}: {{ currency[1] }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" id="currency-selector">
+        </form>
+        <b>Current currency selection:</b> {{ session["current_user_currency"]}}
+
+        <br><p><i>Warning:</i> Selecting news preferences will narrow news results significantly. 
         <h3>News Source Language</h3>
             I only want to see news sources published in 
             <form action="/user-profile/source-language" method="POST">

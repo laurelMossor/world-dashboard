@@ -18,6 +18,8 @@ from model import db, connect_to_db, User
 
 #     return country_and_code
 
+with open("world-currencies.json") as file:
+    world_currencies = sorted(json.loads(file.read()))
 
 
 ##### Create all_countries_list and all_countries_dict #####
@@ -70,6 +72,6 @@ def check_for_username(x_email):
 
 
 
-# if __name__ == '__main__':
-#     from server import app
-#     connect_to_db(app)
+if __name__ == '__main__':
+    from server import app
+    connect_to_db(app)
