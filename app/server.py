@@ -45,7 +45,7 @@ def homepage():
         session["current_user_lang"] = None
         session["current_user_keyword"] = None
         session["current_user_name"] = None
-        session["current_user_currency"] = None
+        session["current_user_currency"] = "USD"
 
     return render_template("homepage.html", 
     ALL_COUNTRIES_LIST=ALL_COUNTRIES_LIST)
@@ -59,7 +59,7 @@ def logout():
     session["current_user_name"] = None
     session["current_user_lang"] = None
     session["curent_user_keyword"] = None
-    session["current_user_currency"] = None
+    session["current_user_currency"] = "USD"
     flash("You have been logged out.")
 
     return redirect("/")
@@ -92,6 +92,26 @@ def user_login():
             flash("Those passwords don't match.")
     
     return redirect("/login-page")
+
+@app.route("/login-page/google-oauth", methods=["POST"])
+def google_OAuth():
+
+
+
+    CLIENT_ID = request.form["credential"]
+    print("*******google***********")
+
+    x = request.cookies.get('g_csrf_token')
+    print(x)
+    y = request.form.get('g_csrf_token')
+    # This should not be None
+    print(y)
+    # x should equal y to verify 
+
+
+
+    return redirect("/login-page")
+
 
 @app.route("/create-account-page")
 def create_account():

@@ -18,9 +18,25 @@
         <input type="submit"> or <a href="/create-account-page">Create an Account</a>
         </p>
     </form>
+
+    <!-- Google OAuth -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <div id="g_id_onload"
+        data-client_id="152475116532-5c55rrlp6uds24c9lhkn8d3g70o8vu8r.apps.googleusercontent.com"
+        data-login_uri="http://localhost:5000/login-page/google-oauth"
+        data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left">
+    </div>
     
 </div>
 
-
+<!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
 
 {% endblock %}
