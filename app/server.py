@@ -3,6 +3,9 @@ from flask import (Flask, redirect, request,
 from model import connect_to_db, db, User
 from jinja2 import StrictUndefined
 
+import google.oauth2.id_token as g_id_token
+import google.auth.transport.requests as g_requests
+
 import json
 import os
 import requests
@@ -96,19 +99,66 @@ def user_login():
 @app.route("/login-page/google-oauth", methods=["POST"])
 def google_OAuth():
 
-
-
-    CLIENT_ID = request.form["credential"]
+    CLIENT_ID = "152475116532-5c55rrlp6uds24c9lhkn8d3g70o8vu8r.apps.googleusercontent.com"
+    # Recieve the credential: Encrypted JWT
+    ID_TOKEN = request.form["credential"]
     print("*******google***********")
 
-    x = request.cookies.get('g_csrf_token')
-    print(x)
-    y = request.form.get('g_csrf_token')
-    # This should not be None
-    print(y)
-    # x should equal y to verify 
+    # Verify that token comes in cookie and body, and they are the same
+    csrf_token_cookie = request.cookies.get('g_csrf_token')
+    if not csrf_token_cookie:
+        print("***ERROR: No CSRF token in Cookie***")
+    csrf_token_body = request.form.get('g_csrf_token')
+    if not csrf_token_body:
+        print("***ERROR: No CSRF token in post body***")
+    if csrf_token_cookie != csrf_token_body:
+        print("***ERROR: Failed to verify double submit cookie.")
+
+    # The verify_oauth2_token function verifies the JWT signature, the aud claim, and the exp claim. 
+    try:
+        print("***** ID INFO AND USER ID ********")
+        # Gets the decoded JWT using Google API client lib
+        g_idinfo = g_id_token.verify_oauth2_token(ID_TOKEN, g_requests.Request(), CLIENT_ID)
+
+        # ----- INTERNAL OPERATIONS ---
+        # ID token is valid. Get the user's Google Account ID from the decoded token.
+        g_userid = g_idinfo['sub'] # Will operate as password
+        g_email = g_idinfo['email'] # User email
+        g_nickname = g_idinfo['given_name'] # User name
+
+        # Check if email already exists in DB
+        user = crud.get_user_email(g_email) 
+        # If not in DB
+        if user == None:
+            # Add to DB
+            new_user = User(username=g_nickname, email=g_email, password=g_userid)
+            db.session.add(new_user)
+            db.session.commit()
+
+            # Add to session
+            session["current_user_email"] = g_email
+            session["current_user_name"] = g_nickname
+            # Flash: Welcome, logged in
+            flash(f"Welcome to the World Report, {g_nickname}! You've been logged in.")
+
+        # If exists, just add to session
+        else:
+            session["current_user_email"] = g_email
+            session["current_user_name"] = g_nickname
+            # Flash: Logged In
+            flash("You are logged in!")
 
 
+
+
+
+    except ValueError:
+        # Invalid token
+        print("****ERROR: Invalid Token*****")
+        # pass
+
+
+    print(g_idinfo) # Full JWT
 
     return redirect("/login-page")
 

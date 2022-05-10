@@ -24,12 +24,6 @@
     <p>You are logged in as {{ session["current_user_email"] }}</p>
     {% endif %} -->
 
-    {% for msg in get_flashed_messages() %}
-    <div class="alert alert-secondary" role="alert">
-        {{ msg }}
-    </div>
-    {% endfor %}
-
     <div class="container-fluid">
     <img src="static/images/dashboard-banner-small.png" id="home-banner"/>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFFFFF;">
@@ -69,7 +63,13 @@
         </div>
     </nav>
 </div>
-    
+
+{% for msg in get_flashed_messages() %}
+<div class="alert alert-secondary" role="alert">
+    {{ msg }}
+</div>
+{% endfor %}
+
     <!-- Body Content -->
     {% block content %} BODY CONTENT GOES HERE {% endblock %}
     
