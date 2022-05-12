@@ -8,9 +8,11 @@
 
 {% block content %}
 
+<div class="container-fluid text-center"><h1>Hello, {{session["current_user_name"]}}!</h1></div> 
 
-    <h1>Hello, {{session["current_user_name"]}}!</h1>
 <div id="user-profile-parent">
+
+
     <!-- SHOULD SAY '==' /// changing it to '!=' while testing -->
     {% if session["current_user_name"] == "Friend" %}
     <div>        
