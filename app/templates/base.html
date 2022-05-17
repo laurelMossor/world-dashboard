@@ -26,7 +26,7 @@
     <img src="static/images/dashboard-banner-small.png" id="home-banner"/>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFFFFF;">
         <div class="container-fluid">
-            <a class="navbar-brand"><h4><b>World Report:</b> LIVE</h4></a>
+            <a class="navbar-brand"><img src="static/images/World-report-logo.png" id="banner-logo" height="40" /></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -49,7 +49,7 @@
                         Hello, {{ session["current_user_name"] }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                            <li><a class="dropdown-item" href="/user-profile">User Profile</a></li>
+                            <li><a class="dropdown-item" href="/user-profile">Settings</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/logout">Log Out</a></li>
                         </ul>

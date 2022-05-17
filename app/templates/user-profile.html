@@ -12,11 +12,12 @@
 
 <div id="user-profile-parent">
 
+    <h2 class="centered-t">Dashboard Settings</h2>
 
+    
     <!-- SHOULD SAY '==' /// changing it to '!=' while testing -->
     {% if session["current_user_name"] == "Friend" %}
     <div>        
-        <h2 class="centered-t">Dashboard Preferences</h2>
         <h3>Create username</h3>
         <form action="/user-profile/create-username" method="POST">
             What should we call you? <input type="text" name="create-username">
@@ -34,10 +35,12 @@
             </select>
             <input type="submit" id="currency-selector">
         </form>
-        <b>Current currency selection:</b> {{ session["current_user_currency"]}}
+        <br><b>Current currency selection:</b> {{ session["current_user_currency"]}}
 
-        <br><p><i>Warning:</i> Selecting news preferences will narrow news results significantly. 
-        <h3>News Source Language</h3>
+        <br><br><br>
+        <p><i>Warning:</i> Selecting news preferences will narrow news results significantly. 
+        <br><br>
+            <h3>News Source Language</h3>
             I only want to see news sources published in 
             <form action="/user-profile/source-language" method="POST">
                 <select name="language-dropdown">
@@ -63,10 +66,10 @@
         <b>Current search term:</b> {{ session["current_user_keyword"] }}
     </p>
 </div>
-    <br><br>
+    <br>
     <div class="centered-t">
         <form action="/user-profile/reset-preferences">
-            <button type="submit" >Reset Preferences</button>
+            <button type="submit" style="background-color:#FCA311">Reset Preferences</button>
         </form>
     </div>
 </div>

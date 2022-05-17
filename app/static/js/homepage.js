@@ -82,7 +82,7 @@ function countryNameNewsAPIcall(countryName) {
         .then(articlesJSON =>  { 
             for (const i in articlesJSON) {
                 newsDiv.insertAdjacentHTML('beforeend', 
-                `<h4>${articlesJSON[i].title}</h4>
+                `<h5>${articlesJSON[i].title}</h5>
                 <img src=${articlesJSON[i].urlToImage} class="dash-img"/>
                 <p>${articlesJSON[i].description}
                 <a href="${articlesJSON[i].url}">Continue reading</a></p>`);

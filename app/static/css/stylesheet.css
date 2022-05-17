@@ -1,7 +1,8 @@
 /* https://coolors.co/palette/000000-14213d-fca311-e5e5e5-ffffff */
 
 body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+    font-family: Roboto Condensed, Tahoma, sans-serif;
     background-color: #FFFFFF;
     margin: 0;
 }
@@ -14,7 +15,7 @@ body {
 .dash-child {
     display: inline-block;
     font-size: small;
-    border: 5px solid black;
+    border: 5px solid #14213D;
     border-radius: 25px;
     background-color: #E5E5E5;
 }
@@ -35,7 +36,7 @@ footer {
 
 .login-box {
     display: block;
-    border: 5px solid #000000;
+    border: 5px solid #14213D;
     padding: 50px;
     width: 400px;
     border-radius: 25px;
@@ -44,7 +45,7 @@ footer {
 }
 #user-profile-parent {
     display: block;
-    border: 5px solid #000000;
+    border: 5px solid #14213D;
     border-radius: 25px;    
     padding: 25px;
     width: 600px;

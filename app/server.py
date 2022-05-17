@@ -102,7 +102,6 @@ def google_OAuth():
     CLIENT_ID = "152475116532-5c55rrlp6uds24c9lhkn8d3g70o8vu8r.apps.googleusercontent.com"
     # Recieve the credential: Encrypted JWT
     ID_TOKEN = request.form["credential"]
-    print("*******google***********")
 
     # Verify that token comes in cookie and body, and they are the same
     csrf_token_cookie = request.cookies.get('g_csrf_token')
@@ -116,7 +115,6 @@ def google_OAuth():
 
     # The verify_oauth2_token function verifies the JWT signature, the aud claim, and the exp claim. 
     try:
-        print("***** ID INFO AND USER ID ********")
         # Gets the decoded JWT using Google API client lib
         g_idinfo = g_id_token.verify_oauth2_token(ID_TOKEN, g_requests.Request(), CLIENT_ID)
 
@@ -149,16 +147,10 @@ def google_OAuth():
             flash("You are logged in!")
 
 
-
-
-
     except ValueError:
         # Invalid token
         print("****ERROR: Invalid Token*****")
         # pass
-
-
-    print(g_idinfo) # Full JWT
 
     return redirect("/login-page")
 
@@ -319,4 +311,5 @@ def exchange_rate_API():
 ###########################################################
 if __name__ == "__main__":
     connect_to_db(app)
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)
+    # In debug mode, page will be updated when code is changed 
