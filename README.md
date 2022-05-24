@@ -1,6 +1,6 @@
 # World Report: Live
 
-![World Report homepage](capstone-project/world-dashboard/app/static/images/preview-pic1.png)
+![World Report homepage](app/static/images/preview-pic1.png)
 
 ### Overview
 Welcome to World Report: Live, where the world is just a click away.  Utilizing an interactive world map data visualization, users can explore key information about the world such as breaking news, population, capital city, primary language, and live exchange rates. Create an account or securely sign-in and access your profile. Customize your dashboard to suit your interests: add a search term such as 'bitcoin' or 'Ukraine' to your news search, specify the news source language, or localize the currency exchange rate.
