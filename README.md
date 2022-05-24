@@ -8,7 +8,20 @@ Welcome to World Report: Live, where the world is just a click away.  Utilizing 
 ![Map preview](app/static/images/preview-pic2.png)
 
 ### Tech Stack
-Python, Flask, PostgresQL, SQLAlchemy, Jinja, JavaScript, AJAX, D3.js, HTML, CSS, Bootstrap, RESTful APIs, AWS, OAuth
+- Python
+- Flask 
+- PostgresQL
+- SQLAlchemy
+- Jinja
+- JavaScript
+- AJAX
+- D3.js
+- HTML
+- CSS
+- Bootstrap
+- RESTful APIs
+- AWS
+- OAuth
 
 ### Data
 Natural Earth - Admin 0 
