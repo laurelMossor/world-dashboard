@@ -307,6 +307,11 @@ def exchange_rate_API():
     return jsonify(data)
 
 
+# API calls the server, a new route, creates a payload with the information
+@app.route("/api/matt-route")
+def api_tester():
+    return "<p>Hey Matt</p>"
+
 
 ###########################################################
 if __name__ == "__main__":
