@@ -276,10 +276,10 @@ def new_api_call(country_param):
         "pageSize": "5",
     }
 
-    if session["current_user_keyword"] != None:
+    if session.get("current_user_keyword",None) != None:
         payload["q"] = session["current_user_keyword"] + " " + country_param
 
-    if session["current_user_lang"] != None:
+    if session.get("current_user_lang", None) != None:
         payload["language"] = session["current_user_lang"]
 
     news_res = requests.get(news_url, params=payload)
