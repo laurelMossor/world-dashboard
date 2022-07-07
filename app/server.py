@@ -266,24 +266,18 @@ def reset_preferences():
 
 
 ###################### CALLING APIs #############################
-@app.route("/api/news-by-country-name")
-def news_by_country_name():
-    """Call the News API with the NAME"""
-
-    country_name = request.args.get("countryName")
-    # country_name = ALL_COUNTRIES_DICT[two_dig_country_code.upper()]
-
+def new_api_call(country_param):
     news_url = "https://newsapi.org/v2/everything"
 
     payload = {
         "apikey": NEWS_API_KEY, 
-        "q": country_name,
+        "q": country_param,
         "sortBy": "relevancy",
         "pageSize": "5",
     }
 
     if session["current_user_keyword"] != None:
-        payload["q"] = session["current_user_keyword"] + " " + country_name
+        payload["q"] = session["current_user_keyword"] + " " + country_param
 
     if session["current_user_lang"] != None:
         payload["language"] = session["current_user_lang"]
@@ -294,6 +288,37 @@ def news_by_country_name():
     articles = news_data["articles"]
 
     return jsonify(articles)
+
+@app.route("/api/news-by-country-name")
+def news_by_country_name():
+    """Call the News API with the NAME"""
+
+    country_name = request.args.get("countryName")
+    # country_name = ALL_COUNTRIES_DICT[two_dig_country_code.upper()]
+
+    # new_api_call(country_name)
+
+    # news_url = "https://newsapi.org/v2/everything"
+
+    # payload = {
+    #     "apikey": NEWS_API_KEY, 
+    #     "q": country_name,
+    #     "sortBy": "relevancy",
+    #     "pageSize": "5",
+    # }
+
+    # if session["current_user_keyword"] != None:
+    #     payload["q"] = session["current_user_keyword"] + " " + country_name
+
+    # if session["current_user_lang"] != None:
+    #     payload["language"] = session["current_user_lang"]
+
+    # news_res = requests.get(news_url, params=payload)
+
+    # news_data = news_res.json()
+    # articles = news_data["articles"]
+
+    return new_api_call(country_name)
 
 @app.route("/api/exchange-rate")
 def exchange_rate_API():
@@ -310,7 +335,9 @@ def exchange_rate_API():
 # API calls the server, a new route, creates a payload with the information
 @app.route("/api/matt-route")
 def api_tester():
-    return "<p>Hey Matt</p>"
+    country_code = "US"
+
+    return new_api_call(country_code)
 
 
 ###########################################################
