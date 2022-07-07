@@ -266,7 +266,7 @@ def reset_preferences():
 
 
 ###################### CALLING APIs #############################
-def new_api_call(country_param):
+def new_api_call(country_param, keyword=None, lang=None):
     news_url = "https://newsapi.org/v2/everything"
 
     payload = {
@@ -276,11 +276,11 @@ def new_api_call(country_param):
         "pageSize": "5",
     }
 
-    if session.get("current_user_keyword",None) != None:
-        payload["q"] = session["current_user_keyword"] + " " + country_param
+    if keyword:
+        payload["q"] = keyword + " " + country_param
 
-    if session.get("current_user_lang", None) != None:
-        payload["language"] = session["current_user_lang"]
+    if lang:
+        payload["language"] = lang
 
     news_res = requests.get(news_url, params=payload)
 
@@ -294,31 +294,12 @@ def news_by_country_name():
     """Call the News API with the NAME"""
 
     country_name = request.args.get("countryName")
-    # country_name = ALL_COUNTRIES_DICT[two_dig_country_code.upper()]
+    keyword = session.get("current_user_keyword",None)
+    lang = session.get("current_user_lang", None)
 
-    # new_api_call(country_name)
+    data = new_api_call(country_name, keyword, lang)
 
-    # news_url = "https://newsapi.org/v2/everything"
-
-    # payload = {
-    #     "apikey": NEWS_API_KEY, 
-    #     "q": country_name,
-    #     "sortBy": "relevancy",
-    #     "pageSize": "5",
-    # }
-
-    # if session["current_user_keyword"] != None:
-    #     payload["q"] = session["current_user_keyword"] + " " + country_name
-
-    # if session["current_user_lang"] != None:
-    #     payload["language"] = session["current_user_lang"]
-
-    # news_res = requests.get(news_url, params=payload)
-
-    # news_data = news_res.json()
-    # articles = news_data["articles"]
-
-    return new_api_call(country_name)
+    return data
 
 @app.route("/api/exchange-rate")
 def exchange_rate_API():
