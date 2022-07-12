@@ -283,7 +283,6 @@ def new_api_call(country_param, keyword=None, lang=None):
         payload["language"] = lang
 
     news_res = requests.get(news_url, params=payload)
-
     news_data = news_res.json()
     articles = news_data["articles"]
 
@@ -314,8 +313,8 @@ def exchange_rate_API():
 
 
 # API calls the server, a new route, creates a payload with the information
-@app.route("/api/matt-route")
-def api_tester():
+@app.route("/api/v1/ISO-dashboard")
+def api_results():
     country_code = "US"
 
     return new_api_call(country_code)
