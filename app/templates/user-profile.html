@@ -17,7 +17,7 @@
 
     
     <!-- SHOULD SAY '==' /// changing it to '!=' while testing -->
-    {% if "current_user_name" not in session or session["current_user_name"] == None %}
+    {% if "current_user_name" not in session or session["current_user_name"] == "Friend" %}
     <div>        
         <h3>Create username</h3>
         <form action="/user-profile/create-username" method="POST">
