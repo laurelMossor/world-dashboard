@@ -13,7 +13,7 @@
 {% endif %}
 <div id="user-profile-parent">
 
-    <h2 class="centered-t">Dashboard Settings</h2>
+    <h2 class="centered-t">Dashboard Settings</h2><br>
 
     
     <!-- SHOULD SAY '==' /// changing it to '!=' while testing -->
@@ -41,11 +41,11 @@
         <b>Current currency selection:</b> {{ session["current_user_currency"]}}
         {% endif %}
 
-        <br><br><br>
-        <p><i>Warning:</i> Selecting news preferences will narrow news results significantly. 
-        <br><br>
-            <h3>News Source Language</h3>
-            I only want to see news sources published in 
+    
+        <br>
+        <h3>News Source Language</h3>
+        <p><i>Warning:</i> Selecting news language may return 0 results. 
+            <br><br>I only want to see news sources published in...
             <form action="/user-profile/source-language" method="POST">
                 <select name="language-dropdown">
                     {% for lan in NEWS_LANGUAGES %}
@@ -59,7 +59,7 @@
             {% endif %}
         </p>
     </div>
-    <div>
+    <!-- <div>
         <p>
         <h3>News Keyword Search Terms</h3>
         What are you interested in? Try adding something 
@@ -73,7 +73,7 @@
         <b>Current search term:</b> {{ session["current_user_keyword"] }}
         {% endif %}
     </p>
-</div>
+</div> -->
     <br>
     <div class="centered-t">
         <form action="/user-profile/reset-preferences">

@@ -28,7 +28,6 @@ def homepage():
     """App landing page and establish session details"""
 
     # Establish session details
-    # THIS CREATES AN ERROR EACH LOAD
 
     # TEST for session info
     session_test = session.get("current_user_email", None)
@@ -40,13 +39,13 @@ def homepage():
         session["current_user_email"] = user.email
         session["current_user_name"] = user.username
         session["current_user_lang"] = user.preferred_lang
-        session["current_user_keyword"] = user.news_search
+        # session["current_user_keyword"] = user.news_search
         session["current_user_currency"] = user.preferred_currency
     else:
         # Else, establish empty session
         session["current_user_email"] = None
         session["current_user_lang"] = None
-        session["current_user_keyword"] = None
+        # session["current_user_keyword"] = None
         session["current_user_name"] = None
         session["current_user_currency"] = "USD"
 
@@ -61,7 +60,7 @@ def logout():
     session["current_user_email"] = None
     session["current_user_name"] = None
     session["current_user_lang"] = None
-    session["curent_user_keyword"] = None
+    # session["curent_user_keyword"] = None
     session["current_user_currency"] = "USD"
     flash("You have been logged out.")
 
@@ -215,20 +214,20 @@ def source_language():
 
     return redirect("/user-profile")
 
-@app.route("/user-profile/keyword-search-term", methods=["POST"])
-def keyword_search_term():
-    """Adds keyword search term to database and session"""
+# @app.route("/user-profile/keyword-search-term", methods=["POST"])
+# def keyword_search_term():
+#     """Adds keyword search term to database and session"""
 
-    keyword_search_term = request.form.get("keyword-search")
-    # Add to session 
-    session["current_user_keyword"] = keyword_search_term
-    # Add to database
-    user = crud.get_user_email(session["current_user_email"])
-    user.news_search = keyword_search_term
-    db.session.add(user)
-    db.session.commit()
+#     keyword_search_term = request.form.get("keyword-search")
+#     # Add to session 
+#     session["current_user_keyword"] = keyword_search_term
+#     # Add to database
+#     user = crud.get_user_email(session["current_user_email"])
+#     user.news_search = keyword_search_term
+#     db.session.add(user)
+#     db.session.commit()
 
-    return redirect("/user-profile")
+#     return redirect("/user-profile")
 
 @app.route("/user-profile/currency-preference", methods=["POST"])
 def choose_currency():
@@ -252,13 +251,13 @@ def reset_preferences():
     """Resets the users preferences in the database and session"""
 
     user = crud.get_user_email(session["current_user_email"])
-    user.news_search = None
+    # user.news_search = None
     user.preferred_lang = None
     user.preferred_currency = "USD"
     db.session.add(user)
     db.session.commit()
 
-    session["current_user_keyword"] = None
+    # session["current_user_keyword"] = None
     session["current_user_lang"] = None
     session["current_user_currency"] = "USD"
 
@@ -266,7 +265,7 @@ def reset_preferences():
 
 
 ###################### CALLING APIs #############################
-def new_api_call(country_param, keyword=None, lang=None):
+def new_api_call(country_param, lang=None):
     news_url = "https://newsapi.org/v2/everything"
 
     payload = {
@@ -276,13 +275,15 @@ def new_api_call(country_param, keyword=None, lang=None):
         "pageSize": "5",
     }
 
-    if keyword:
-        payload["q"] = keyword + " " + country_param
+    # if keyword:
+    #     payload["q"] = keyword + " " + country_param
 
     if lang:
         payload["language"] = lang
 
     news_res = requests.get(news_url, params=payload)
+    print("************")
+    print(news_res)
     news_data = news_res.json()
     articles = news_data["articles"]
 
@@ -293,7 +294,7 @@ def news_by_country_name():
     """Call the News API with the NAME"""
 
     country_name = request.args.get("countryName")
-    keyword = session.get("current_user_keyword",None)
+    # keyword = session.get("current_user_keyword",None)
     lang = session.get("current_user_lang", None)
 
     data = new_api_call(country_name, keyword, lang)
