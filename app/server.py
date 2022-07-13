@@ -12,7 +12,7 @@ import requests
 import crud 
 
 app = Flask(__name__)
-app.secret_key = "dev"
+app.secret_key = os.environ['FLASK_SECRET_KEY'] 
 app.jinja_env.undefined = StrictUndefined
 
 NEWS_API_KEY = os.environ['NEWS_API_KEY']
@@ -323,5 +323,5 @@ def api_results():
 ###########################################################
 if __name__ == "__main__":
     connect_to_db(app)
-    app.run(host="0.0.0.0")
-    # In debug mode, page will be updated when code is changed 
+    app.run(host="0.0.0.0", debug=True)
+    # In debug mode, page will be updated when code is changed, change to debug=True

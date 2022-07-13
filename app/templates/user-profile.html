@@ -8,15 +8,16 @@
 
 {% block content %}
 
+{% if "current_user_name" in session %}
 <div class="container-fluid text-center"><h1>Hello, {{session["current_user_name"]}}!</h1></div> 
-
+{% endif %}
 <div id="user-profile-parent">
 
     <h2 class="centered-t">Dashboard Settings</h2>
 
     
     <!-- SHOULD SAY '==' /// changing it to '!=' while testing -->
-    {% if session["current_user_name"] == "Friend" %}
+    {% if "current_user_name" not in session or session["current_user_name"] == None %}
     <div>        
         <h3>Create username</h3>
         <form action="/user-profile/create-username" method="POST">
@@ -35,7 +36,10 @@
             </select>
             <input type="submit" id="currency-selector">
         </form>
-        <br><b>Current currency selection:</b> {{ session["current_user_currency"]}}
+        <br>
+        {% if "current_user_currency" in session %}
+        <b>Current currency selection:</b> {{ session["current_user_currency"]}}
+        {% endif %}
 
         <br><br><br>
         <p><i>Warning:</i> Selecting news preferences will narrow news results significantly. 
@@ -50,7 +54,9 @@
                 </select>
                 <input type="submit" id="language-selector">
             </form><br>
+            {% if "current_user_lang" in session %}
             <b>Current language choice:</b> {{ session["current_user_lang"] }}
+            {% endif %}
         </p>
     </div>
     <div>
@@ -63,7 +69,9 @@
             One word: <input type="text" name="keyword-search">
             <input type="submit">
         </form><br>
+        {% if "current_user_keyword" in session %}
         <b>Current search term:</b> {{ session["current_user_keyword"] }}
+        {% endif %}
     </p>
 </div>
     <br>
