@@ -42,7 +42,7 @@
                         <a class="nav-link" href="/create-account-page">Create Account</a>
                     </li>
 
-                    {% if session["current_user_name"] != None %}
+                    {% if "current_user_name" in session and session["current_user_name"] != None %}
                     <!-- If conditional here, profile/logout -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-toggle="dropdown" aria-expanded="false">

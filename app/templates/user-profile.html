@@ -2,21 +2,18 @@
 
 {% block title %}User Profile{% endblock %}
 
-{% block js %}
-<script src="/static/js/profile-page.js"></script>
-{% endblock %}
-
 {% block content %}
 
+{% if "current_user_name" in session %}
 <div class="container-fluid text-center"><h1>Hello, {{session["current_user_name"]}}!</h1></div> 
-
+{% endif %}
 <div id="user-profile-parent">
 
-    <h2 class="centered-t">Dashboard Settings</h2>
+    <h2 class="centered-t">Dashboard Settings</h2><br>
 
     
     <!-- SHOULD SAY '==' /// changing it to '!=' while testing -->
-    {% if session["current_user_name"] == "Friend" %}
+    {% if "current_user_name" not in session or session["current_user_name"] == "Friend" %}
     <div>        
         <h3>Create username</h3>
         <form action="/user-profile/create-username" method="POST">
@@ -35,13 +32,16 @@
             </select>
             <input type="submit" id="currency-selector">
         </form>
-        <br><b>Current currency selection:</b> {{ session["current_user_currency"]}}
+        <br>
+        {% if "current_user_currency" in session %}
+        <b>Current currency selection:</b> {{ session["current_user_currency"]}}
+        {% endif %}
 
-        <br><br><br>
-        <p><i>Warning:</i> Selecting news preferences will narrow news results significantly. 
-        <br><br>
-            <h3>News Source Language</h3>
-            I only want to see news sources published in 
+    
+        <br>
+        <h3>News Source Language</h3>
+        <p><i>Warning:</i> Selecting news language may return 0 results. 
+            <br><br>I only want to see news sources published in...
             <form action="/user-profile/source-language" method="POST">
                 <select name="language-dropdown">
                     {% for lan in NEWS_LANGUAGES %}
@@ -50,22 +50,12 @@
                 </select>
                 <input type="submit" id="language-selector">
             </form><br>
+            {% if "current_user_lang" in session %}
             <b>Current language choice:</b> {{ session["current_user_lang"] }}
+            {% endif %}
         </p>
     </div>
-    <div>
-        <p>
-        <h3>News Keyword Search Terms</h3>
-        What are you interested in? Try adding something 
-        like: 'bitcoin', 'dogs', or 'Ukraine'
-        to personalize your search results. 
-        <form action="/user-profile/keyword-search-term" method="POST">
-            One word: <input type="text" name="keyword-search">
-            <input type="submit">
-        </form><br>
-        <b>Current search term:</b> {{ session["current_user_keyword"] }}
-    </p>
-</div>
+
     <br>
     <div class="centered-t">
         <form action="/user-profile/reset-preferences">
