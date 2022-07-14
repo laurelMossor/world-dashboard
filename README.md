@@ -8,20 +8,7 @@ Welcome to World Report: Live, where the world is just a click away.  Utilizing 
 ![Map preview](app/static/images/preview-pic2.png)
 
 ### Tech Stack
-- Python
-- Flask 
-- PostgresQL
-- SQLAlchemy
-- Jinja
-- JavaScript
-- AJAX
-- D3.js
-- HTML
-- CSS
-- Bootstrap
-- RESTful APIs
-- AWS
-- OAuth
+- Python, Flask, PostgresQL, SQLAlchemy, Jinja, JavaScript, AJAX, D3.js, HTML, CSS, Bootstrap, RESTful APIs, AWS, OAuth
 
 ### Data
 Natural Earth - Admin 0 
@@ -29,6 +16,8 @@ https://www.naturalearthdata.com/downloads/10m-cultural-vectors/
 
 
 ### Notes
-Visit the site at http://www.worldreport.live !
+Visit the site at http://www.worldreport.live!
 
 ![Dhasboard preview](app/static/images/preview-pic3.png)
+
+# API Documentation

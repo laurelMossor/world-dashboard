@@ -39,13 +39,11 @@ def homepage():
         session["current_user_email"] = user.email
         session["current_user_name"] = user.username
         session["current_user_lang"] = user.preferred_lang
-        # session["current_user_keyword"] = user.news_search
         session["current_user_currency"] = user.preferred_currency
     else:
         # Else, establish empty session
         session["current_user_email"] = None
         session["current_user_lang"] = None
-        # session["current_user_keyword"] = None
         session["current_user_name"] = None
         session["current_user_currency"] = "USD"
 
@@ -60,7 +58,6 @@ def logout():
     session["current_user_email"] = None
     session["current_user_name"] = None
     session["current_user_lang"] = None
-    # session["curent_user_keyword"] = None
     session["current_user_currency"] = "USD"
     flash("You have been logged out.")
 
@@ -214,21 +211,6 @@ def source_language():
 
     return redirect("/user-profile")
 
-# @app.route("/user-profile/keyword-search-term", methods=["POST"])
-# def keyword_search_term():
-#     """Adds keyword search term to database and session"""
-
-#     keyword_search_term = request.form.get("keyword-search")
-#     # Add to session 
-#     session["current_user_keyword"] = keyword_search_term
-#     # Add to database
-#     user = crud.get_user_email(session["current_user_email"])
-#     user.news_search = keyword_search_term
-#     db.session.add(user)
-#     db.session.commit()
-
-#     return redirect("/user-profile")
-
 @app.route("/user-profile/currency-preference", methods=["POST"])
 def choose_currency():
     """User can choose the preferred default exchange rate currency
@@ -251,13 +233,11 @@ def reset_preferences():
     """Resets the users preferences in the database and session"""
 
     user = crud.get_user_email(session["current_user_email"])
-    # user.news_search = None
     user.preferred_lang = None
     user.preferred_currency = "USD"
     db.session.add(user)
     db.session.commit()
 
-    # session["current_user_keyword"] = None
     session["current_user_lang"] = None
     session["current_user_currency"] = "USD"
 
@@ -275,15 +255,10 @@ def new_api_call(country_param, lang=None):
         "pageSize": "5",
     }
 
-    # if keyword:
-    #     payload["q"] = keyword + " " + country_param
-
     if lang:
         payload["language"] = lang
 
     news_res = requests.get(news_url, params=payload)
-    print("************")
-    print(news_res)
     news_data = news_res.json()
     articles = news_data["articles"]
 
@@ -294,12 +269,9 @@ def news_by_country_name():
     """Call the News API with the NAME"""
 
     country_name = request.args.get("countryName")
-    # keyword = session.get("current_user_keyword",None)
     lang = session.get("current_user_lang", None)
-
-    data = new_api_call(country_name, keyword, lang)
-
-    return data
+    
+    return new_api_call(country_name, keyword, lang)
 
 @app.route("/api/exchange-rate")
 def exchange_rate_API():
@@ -312,17 +284,36 @@ def exchange_rate_API():
 
     return jsonify(data)
 
+@app.route("/api/v1/ISO-dashboard/<params>")
+def api_results(params=None):
 
-# API calls the server, a new route, creates a payload with the information
-@app.route("/api/v1/ISO-dashboard")
-def api_results():
-    country_code = "US"
+    if not params:
+        params = "United States of America"
+    
+    # take in ALPHA code, 
+    # use code to call REST countries, store only some info
+        # use the currency code to call exchange rate
 
-    return new_api_call(country_code)
+    # EXAMPLE POSSIBILITY to make requests and wait w/out error
+    # result = None
+    # while result is None:
+    #     try:
+    #         # connect
+    #         result = get_data(...)
+    #     except:
+    #         pass
+    return new_api_call(params)
+
+@app.route("/api/param-test/<param>")
+def test_api_query(param):
+    print(param)
+
+    return jsonify(param)
+
 
 
 ###########################################################
 if __name__ == "__main__":
     connect_to_db(app)
     app.run(host="0.0.0.0", debug=True)
-    # In debug mode, page will be updated when code is changed, change to debug=True
+    # In debug mode, page will be updated when code is changed, change to debug=True/False
