@@ -13,6 +13,10 @@ import crud
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] 
+
+# Normally, if you refer to an undefined variable in a Jinja template,
+# Jinja silently ignores this. This makes debugging difficult, so we'll
+# set an attribute of the Jinja environment that says to make this an error.
 app.jinja_env.undefined = StrictUndefined
 
 NEWS_API_KEY = os.environ['NEWS_API_KEY']
@@ -302,6 +306,7 @@ def api_results(params=None):
     #         result = get_data(...)
     #     except:
     #         pass
+    
     return new_api_call(params)
 
 @app.route("/api/param-test/<param>")
